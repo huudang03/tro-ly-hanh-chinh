@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Trợ lý thủ tục hành chính cấp xã</title>
-
   <style>
     body {
       font-family: Arial, sans-serif;
       background: #f4f6f8;
-      margin: 0;
       padding: 20px;
     }
     h1 {
@@ -45,7 +43,6 @@
     }
   </style>
 </head>
-
 <body>
 
 <h1>🤖 Trợ lý thủ tục hành chính cấp xã</h1>
@@ -71,21 +68,19 @@ async function ask(question) {
 
   try {
     const res = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY,
+      "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=" + API_KEY,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [{
-            role: "user",
             parts: [{
-              text:
-`Bạn là trợ lý hành chính cấp xã tại Việt Nam.
-Hãy hướng dẫn rõ ràng, chính xác, dễ hiểu cho người dân.
+              text: `
+Bạn là trợ lý hành chính cấp xã tại Việt Nam.
+Hướng dẫn người dân rõ ràng, chính xác, dễ hiểu.
 
-Câu hỏi: ${question}`
+Câu hỏi: ${question}
+              `
             }]
           }]
         })
@@ -94,13 +89,19 @@ Câu hỏi: ${question}`
 
     const data = await res.json();
 
-    if (!data.candidates) {
-      box.innerText = "❌ Không nhận được phản hồi từ hệ thống.";
+    // 👇 HIỂN THỊ LỖI THẬT NẾU GEMINI TRẢ LỖI
+    if (data.error) {
+      box.innerText = "❌ Gemini lỗi: " + data.error.message;
       return;
     }
 
-    box.innerText =
-      data.candidates[0].content.parts[0].text;
+    if (!data.candidates || !data.candidates[0]) {
+      box.innerText = "❌ Gemini không trả nội dung.";
+      console.log(data);
+      return;
+    }
+
+    box.innerText = data.candidates[0].content.parts[0].text;
 
   } catch (err) {
     box.innerText = "❌ Lỗi kết nối hoặc API key không hợp lệ.";
