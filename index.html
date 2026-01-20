@@ -1,105 +1,148 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Trợ lý ảo thủ tục hành chính cấp xã</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background: #0b5ed7;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            padding: 20px;
-            max-width: 900px;
-            margin: auto;
-        }
-        .desc {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 15px;
-        }
-        button {
-            padding: 15px;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            background: #ffffff;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            transition: 0.2s;
-        }
-        button:hover {
-            background: #e9f0ff;
-            transform: translateY(-2px);
-        }
-        footer {
-            text-align: center;
-            padding: 15px;
-            font-size: 13px;
-            color: #666;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Trợ lý ảo thủ tục hành chính cấp xã</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+}
+header {
+  background: #0b5ed7;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+.section {
+  margin-bottom: 30px;
+}
+.section h2 {
+  color: #0b5ed7;
+  border-left: 5px solid #0b5ed7;
+  padding-left: 10px;
+}
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+  margin-top: 15px;
+}
+button {
+  padding: 14px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+button:hover {
+  background: #e9f0ff;
+}
+footer {
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+  padding: 15px;
+}
+</style>
 </head>
+
 <body>
 
 <header>
-    <h1>🤖 Trợ lý ảo hỗ trợ thủ tục hành chính cấp xã</h1>
+<h1>🤖 Trợ lý ảo hỗ trợ thủ tục hành chính cấp xã</h1>
+<p>Chọn thủ tục cần hỏi – hệ thống sẽ hướng dẫn chi tiết</p>
 </header>
 
 <div class="container">
-    <p class="desc">
-        Chọn thủ tục cần hỏi – hệ thống sẽ mở Gemini và trả lời ngay cho bạn.
-    </p>
 
-    <div class="buttons">
-        <button onclick="askGemini('Thủ tục đăng ký khai sinh tại UBND cấp xã gồm những giấy tờ gì?')">
-            📄 Đăng ký khai sinh
-        </button>
+<!-- HỘ TỊCH -->
+<div class="section">
+<h2>📘 Thủ tục Hộ tịch</h2>
+<div class="buttons">
+<button onclick="ask('Thủ tục đăng ký khai sinh tại UBND cấp xã')">Đăng ký khai sinh</button>
+<button onclick="ask('Thủ tục đăng ký khai tử tại UBND cấp xã')">Đăng ký khai tử</button>
+<button onclick="ask('Thủ tục đăng ký kết hôn tại UBND cấp xã')">Đăng ký kết hôn</button>
+<button onclick="ask('Thủ tục đăng ký nhận cha mẹ con tại UBND cấp xã')">Nhận cha, mẹ, con</button>
+<button onclick="ask('Thủ tục cải chính hộ tịch tại UBND cấp xã')">Cải chính hộ tịch</button>
+</div>
+</div>
 
-        <button onclick="askGemini('Thủ tục đăng ký kết hôn tại UBND cấp xã thực hiện như thế nào?')">
-            💍 Đăng ký kết hôn
-        </button>
+<!-- CƯ TRÚ -->
+<div class="section">
+<h2>🏠 Cư trú</h2>
+<div class="buttons">
+<button onclick="ask('Thủ tục đăng ký thường trú')">Đăng ký thường trú</button>
+<button onclick="ask('Thủ tục đăng ký tạm trú')">Đăng ký tạm trú</button>
+<button onclick="ask('Thủ tục xóa đăng ký thường trú')">Xóa đăng ký thường trú</button>
+<button onclick="ask('Thủ tục xác nhận thông tin cư trú')">Xác nhận thông tin cư trú</button>
+</div>
+</div>
 
-        <button onclick="askGemini('Thủ tục xác nhận tình trạng hôn nhân tại cấp xã')">
-            📝 Xác nhận tình trạng hôn nhân
-        </button>
+<!-- CHỨNG THỰC -->
+<div class="section">
+<h2>📄 Chứng thực</h2>
+<div class="buttons">
+<button onclick="ask('Thủ tục chứng thực bản sao từ bản chính')">Chứng thực bản sao</button>
+<button onclick="ask('Thủ tục chứng thực chữ ký')">Chứng thực chữ ký</button>
+<button onclick="ask('Thủ tục chứng thực hợp đồng giao dịch')">Chứng thực hợp đồng</button>
+</div>
+</div>
 
-        <button onclick="askGemini('Thủ tục chứng thực bản sao từ bản chính tại UBND cấp xã')">
-            ✅ Chứng thực giấy tờ
-        </button>
+<!-- HÔN NHÂN -->
+<div class="section">
+<h2>💍 Hôn nhân – gia đình</h2>
+<div class="buttons">
+<button onclick="ask('Thủ tục xác nhận tình trạng hôn nhân')">Xác nhận tình trạng hôn nhân</button>
+<button onclick="ask('Thủ tục cấp giấy xác nhận độc thân')">Giấy xác nhận độc thân</button>
+</div>
+</div>
 
-        <button onclick="askGemini('Thủ tục đăng ký tạm trú tại địa phương')">
-            🏠 Đăng ký tạm trú
-        </button>
+<!-- LAO ĐỘNG - XÃ HỘI -->
+<div class="section">
+<h2>👥 Lao động – xã hội</h2>
+<div class="buttons">
+<button onclick="ask('Thủ tục xác nhận hộ nghèo tại UBND cấp xã')">Xác nhận hộ nghèo</button>
+<button onclick="ask('Thủ tục xác nhận hộ cận nghèo')">Xác nhận hộ cận nghèo</button>
+<button onclick="ask('Thủ tục hưởng trợ cấp xã hội')">Trợ cấp xã hội</button>
+<button onclick="ask('Thủ tục xác nhận người có công')">Xác nhận người có công</button>
+</div>
+</div>
 
-        <button onclick="askGemini('UBND cấp xã giải quyết những thủ tục hành chính nào?')">
-            ℹ️ Các thủ tục thuộc thẩm quyền xã
-        </button>
-    </div>
+<!-- KHÁC -->
+<div class="section">
+<h2>ℹ️ Thủ tục khác</h2>
+<div class="buttons">
+<button onclick="ask('UBND cấp xã giải quyết những thủ tục hành chính nào')">Danh mục thủ tục cấp xã</button>
+<button onclick="ask('Thời gian giải quyết thủ tục hành chính tại UBND cấp xã')">Thời gian giải quyết</button>
+<button onclick="ask('Lệ phí thủ tục hành chính cấp xã')">Lệ phí</button>
+</div>
+</div>
+
 </div>
 
 <footer>
-    Hệ thống hỗ trợ tra cứu – không thay thế cơ quan nhà nước
+Hệ thống hỗ trợ tra cứu – không thay thế quyết định của cơ quan nhà nước
 </footer>
 
 <script>
-function askGemini(question) {
-    const url = "https://gemini.google.com/app?prompt=" + encodeURIComponent(question);
-    window.open(url, "_blank");
+function ask(question) {
+  const url = "https://gemini.google.com/app";
+  window.open(url, "_blank");
+  setTimeout(() => {
+    navigator.clipboard.writeText(question);
+    alert("Câu hỏi đã được sao chép.\nVui lòng dán (Ctrl+V) vào Gemini và nhấn Enter.");
+  }, 500);
 }
 </script>
 
