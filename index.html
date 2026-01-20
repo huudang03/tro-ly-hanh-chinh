@@ -1,111 +1,177 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Trợ lý thủ tục hành chính cấp xã</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #0a4fa3;
-    }
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 15px;
-      max-width: 900px;
-      margin: 30px auto;
-    }
-    button {
-      padding: 16px;
-      font-size: 16px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background: #0a4fa3;
-      color: white;
-    }
-    button:hover {
-      background: #083b7a;
-    }
-    #answer {
-      max-width: 900px;
-      margin: 30px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      white-space: pre-wrap;
-      line-height: 1.6;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trợ lý thủ tục hành chính cấp xã</title>
+
+<style>
+:root {
+  --primary: #0a4fa3;
+  --bg: #f4f6f8;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: #333;
+}
+
+header {
+  background: var(--primary);
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+header p {
+  margin-top: 8px;
+  opacity: 0.9;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+.search-box {
+  margin-bottom: 20px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+.card span {
+  font-size: 26px;
+}
+
+.card h3 {
+  margin: 10px 0 0;
+  font-size: 16px;
+}
+
+#answer {
+  margin-top: 30px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.loading {
+  color: var(--primary);
+  font-weight: bold;
+}
+</style>
 </head>
+
 <body>
 
-<h1>🤖 Trợ lý thủ tục hành chính cấp xã</h1>
+<header>
+  <h1>🤖 Trợ lý thủ tục hành chính cấp xã</h1>
+  <p>Hướng dẫn nhanh – chính xác – dễ hiểu cho người dân</p>
+</header>
 
-<div class="buttons">
-  <button onclick="ask('Thủ tục làm căn cước công dân')">Căn cước công dân</button>
-  <button onclick="ask('Thủ tục đăng ký khai sinh')">Khai sinh</button>
-  <button onclick="ask('Thủ tục đăng ký khai tử')">Khai tử</button>
-  <button onclick="ask('Thủ tục đăng ký thường trú')">Thường trú</button>
-  <button onclick="ask('Thủ tục đăng ký tạm trú')">Tạm trú</button>
-  <button onclick="ask('Thủ tục xác nhận tình trạng hôn nhân')">Hôn nhân</button>
-  <button onclick="ask('Thủ tục chứng thực giấy tờ tại UBND xã')">Chứng thực</button>
+<div class="container">
+
+  <div class="search-box">
+    <input type="text" placeholder="🔍 Tìm thủ tục (ví dụ: khai sinh, tạm trú, CCCD...)">
+  </div>
+
+  <div class="buttons">
+    <div class="card" onclick="ask('Thủ tục làm căn cước công dân')">
+      <span>🪪</span>
+      <h3>Căn cước công dân</h3>
+    </div>
+    <div class="card" onclick="ask('Thủ tục đăng ký khai sinh')">
+      <span>👶</span>
+      <h3>Đăng ký khai sinh</h3>
+    </div>
+    <div class="card" onclick="ask('Thủ tục đăng ký khai tử')">
+      <span>🕯️</span>
+      <h3>Đăng ký khai tử</h3>
+    </div>
+    <div class="card" onclick="ask('Thủ tục đăng ký thường trú')">
+      <span>🏠</span>
+      <h3>Thường trú</h3>
+    </div>
+    <div class="card" onclick="ask('Thủ tục đăng ký tạm trú')">
+      <span>📍</span>
+      <h3>Tạm trú</h3>
+    </div>
+    <div class="card" onclick="ask('Thủ tục xác nhận tình trạng hôn nhân')">
+      <span>💍</span>
+      <h3>Hôn nhân</h3>
+    </div>
+    <div class="card" onclick="ask('Thủ tục chứng thực giấy tờ tại UBND xã')">
+      <span>📄</span>
+      <h3>Chứng thực</h3>
+    </div>
+  </div>
+
+  <div id="answer">
+    👉 Chọn một thủ tục để xem hướng dẫn chi tiết
+  </div>
+
 </div>
 
-<div id="answer">👉 Bấm vào một thủ tục để xem hướng dẫn</div>
-
 <script>
-const API_KEY = "AIzaSyBlr2hK8YBAzq2CEjZxPcHFoJPXgjT5FkI";
-
 async function ask(question) {
   const box = document.getElementById("answer");
-  box.innerText = "⏳ Đang tra cứu...";
+  box.innerHTML = "<span class='loading'>⏳ Đang tra cứu thủ tục...</span>";
 
   try {
-    const res = await fetch(
-      "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=" + API_KEY,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: `
-Bạn là trợ lý hành chính cấp xã tại Việt Nam.
-Hướng dẫn người dân rõ ràng, chính xác, dễ hiểu.
-
-Câu hỏi: ${question}
-              `
-            }]
-          }]
-        })
-      }
-    );
+    const res = await fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question })
+    });
 
     const data = await res.json();
 
-    // 👇 HIỂN THỊ LỖI THẬT NẾU GEMINI TRẢ LỖI
     if (data.error) {
-      box.innerText = "❌ Gemini lỗi: " + data.error.message;
+      box.innerText = "❌ " + data.error;
       return;
     }
 
-    if (!data.candidates || !data.candidates[0]) {
-      box.innerText = "❌ Gemini không trả nội dung.";
-      console.log(data);
-      return;
-    }
+    box.innerText = data.answer;
 
-    box.innerText = data.candidates[0].content.parts[0].text;
-
-  } catch (err) {
-    box.innerText = "❌ Lỗi kết nối hoặc API key không hợp lệ.";
-    console.error(err);
+  } catch (e) {
+    box.innerText = "❌ Không kết nối được máy chủ.";
   }
 }
 </script>
