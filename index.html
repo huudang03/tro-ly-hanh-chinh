@@ -1,210 +1,249 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trợ lý thủ tục hành chính cấp xã</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trợ lý thủ tục hành chính cấp xã</title>
 
-<style>
-:root {
-  --primary: #0a4fa3;
-  --bg: #f4f6f8;
-}
+    <style>
+        :root {
+            --primary: #0a4fa3;
+            --bg: #f4f6f8;
+            --accent: #2563eb;
+        }
 
-body {
-  margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: var(--bg);
-  color: #333;
-}
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--bg);
+            color: #333;
+        }
 
-header {
-  background: var(--primary);
-  color: white;
-  padding: 20px;
-  text-align: center;
-}
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
 
-header h1 {
-  margin: 0;
-  font-size: 24px;
-}
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
 
-header p {
-  margin-top: 8px;
-  opacity: 0.9;
-}
+        header p {
+            margin-top: 10px;
+            opacity: 0.9;
+            font-size: 16px;
+        }
 
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 20px;
-}
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 30px 20px;
+        }
 
-.search-box {
-  margin-bottom: 20px;
-}
+        .search-box {
+            margin-bottom: 25px;
+        }
 
-.search-box input {
-  width: 100%;
-  padding: 14px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
+        .search-box input {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
 
-.buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-}
+        .search-box input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
 
-.card {
-  background: white;
-  padding: 18px;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  transition: 0.2s;
-  text-align: center;
-}
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
 
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
-}
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            transition: all 0.2s ease;
+            text-align: center;
+            border: 1px solid transparent;
+        }
 
-.card span {
-  font-size: 26px;
-}
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: var(--accent);
+        }
 
-.card h3 {
-  margin: 10px 0 0;
-  font-size: 16px;
-}
+        .card span {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 10px;
+        }
 
-#answer {
-  margin-top: 30px;
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  line-height: 1.7;
-  white-space: pre-wrap;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  min-height: 100px;
-}
+        .card h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #444;
+        }
 
-.loading {
-  color: var(--primary);
-  font-weight: bold;
-  display: block;
-  text-align: center;
-}
-</style>
+        #answer {
+            margin-top: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            min-height: 120px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .loading {
+            color: var(--accent);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Hiệu ứng gõ chữ cho sinh động */
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .dot { animation: blink 1s infinite; }
+    </style>
 </head>
 
 <body>
 
 <header>
-  <h1>🤖 Trợ lý thủ tục hành chính cấp xã</h1>
-  <p>Hướng dẫn nhanh – chính xác – dễ hiểu cho người dân</p>
+    <h1>🤖 Trợ lý thủ tục hành chính cấp xã</h1>
+    <p>Hướng dẫn nhanh – chính xác – dễ hiểu cho người dân</p>
 </header>
 
 <div class="container">
 
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="🔍 Tìm thủ tục (ví dụ: khai sinh, tạm trú, CCCD...)" onkeypress="handleKeyPress(event)">
-  </div>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 Nhập câu hỏi hoặc tên thủ tục (ví dụ: làm khai sinh cần gì?)..." onkeypress="handleKeyPress(event)">
+    </div>
 
-  <div class="buttons">
-    <div class="card" onclick="ask('Quy trình làm Căn cước công dân mới nhất')">
-      <span>🪪</span>
-      <h3>Căn cước công dân</h3>
+    <div class="buttons">
+        <div class="card" onclick="ask('Thủ tục cấp thẻ Căn cước công dân mới nhất')">
+            <span>🪪</span>
+            <h3>Căn cước công dân</h3>
+        </div>
+        <div class="card" onclick="ask('Hướng dẫn đăng ký khai sinh trực tuyến và trực tiếp')">
+            <span>👶</span>
+            <h3>Đăng ký khai sinh</h3>
+        </div>
+        <div class="card" onclick="ask('Thủ tục đăng ký khai tử')">
+            <span>🕯️</span>
+            <h3>Đăng ký khai tử</h3>
+        </div>
+        <div class="card" onclick="ask('Thủ tục đăng ký thường trú theo luật mới')">
+            <span>🏠</span>
+            <h3>Thường trú</h3>
+        </div>
+        <div class="card" onclick="ask('Quy trình đăng ký tạm trú cho người thuê nhà')">
+            <span>📍</span>
+            <h3>Tạm trú</h3>
+        </div>
+        <div class="card" onclick="ask('Thủ tục xin giấy xác nhận tình trạng hôn nhân')">
+            <span>💍</span>
+            <h3>Hôn nhân</h3>
+        </div>
+        <div class="card" onclick="ask('Quy trình chứng thực bản sao từ bản chính')">
+            <span>📄</span>
+            <h3>Chứng thực</h3>
+        </div>
     </div>
-    <div class="card" onclick="ask('Quy trình đăng ký khai sinh cho trẻ mới sinh')">
-      <span>👶</span>
-      <h3>Đăng ký khai sinh</h3>
-    </div>
-    <div class="card" onclick="ask('Quy trình đăng ký khai tử')">
-      <span>🕯️</span>
-      <h3>Đăng ký khai tử</h3>
-    </div>
-    <div class="card" onclick="ask('Quy trình đăng ký thường trú (nhập hộ khẩu)')">
-      <span>🏠</span>
-      <h3>Thường trú</h3>
-    </div>
-    <div class="card" onclick="ask('Quy trình đăng ký tạm trú')">
-      <span>📍</span>
-      <h3>Tạm trú</h3>
-    </div>
-    <div class="card" onclick="ask('Quy trình xin xác nhận tình trạng hôn nhân (giấy độc thân)')">
-      <span>💍</span>
-      <h3>Hôn nhân</h3>
-    </div>
-    <div class="card" onclick="ask('Quy trình chứng thực bản sao từ bản chính tại UBND xã')">
-      <span>📄</span>
-      <h3>Chứng thực</h3>
-    </div>
-  </div>
 
-  <div id="answer">
-    👉 Chọn một thủ tục ở trên hoặc nhập câu hỏi vào ô tìm kiếm để xem hướng dẫn.
-  </div>
+    <div id="answer">
+        👉 <b>Chào bạn!</b> Hãy chọn một thủ tục ở trên hoặc nhập câu hỏi vào ô tìm kiếm, tôi sẽ hướng dẫn bạn chi tiết các bước thực hiện.
+    </div>
 
 </div>
 
 <script>
-// --- CẤU HÌNH API ---
+// --- CẤU HÌNH ---
+// Thay chuỗi dưới đây bằng API Key của bạn
 const API_KEY = "AIzaSyBlr2hK8YBAzq2CEjZxPcHFoJPXgjT5FkI"; 
-const MODEL_NAME = "gemini-1.5-flash";
+const MODEL_NAME = "models/gemini-1.5-flash";
 
 async function ask(question) {
-  const box = document.getElementById("answer");
-  box.innerHTML = "<span class='loading'>⏳ Đang kết nối với trí tuệ nhân tạo để tra cứu...</span>";
+    const box = document.getElementById("answer");
+    
+    // Hiển thị trạng thái đang tải
+    box.innerHTML = `
+        <div class="loading">
+            <span>⏳ Đang tra cứu thông tin pháp luật</span>
+            <span class="dot">.</span><span class="dot" style="animation-delay: 0.2s">.</span><span class="dot" style="animation-delay: 0.4s">.</span>
+        </div>`;
 
-  try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${API_KEY}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{ 
-            text: `Bạn là một công chức tư pháp hộ tịch chuyên nghiệp tại Việt Nam. 
-                   Hãy hướng dẫn chi tiết, ngắn gọn và dễ hiểu về: ${question}. 
-                   Chia rõ các bước: Chuẩn bị giấy tờ, Nơi nộp, Thời gian giải quyết.` 
-          }]
-        }]
-      })
-    });
+    try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/${MODEL_NAME}:generateContent?key=${API_KEY}`;
+        
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{ 
+                        text: `Bạn là trợ lý ảo chuyên về thủ tục hành chính cấp xã tại Việt Nam. 
+                               Hãy hướng dẫn thủ tục: "${question}" 
+                               Yêu cầu: 
+                               1. Trình bày ngắn gọn, dễ hiểu.
+                               2. Chia rõ các mục: Thành phần hồ sơ, Nơi nộp, Thời gian chờ.
+                               3. Ngôn ngữ thân thiện với người dân.` 
+                    }]
+                }]
+            })
+        });
 
-    const data = await response.json();
+        const data = await response.json();
 
-    if (data.error) {
-      box.innerHTML = "❌ Lỗi từ Google AI: " + data.error.message;
-      return;
+        if (data.error) {
+            box.innerHTML = `<span style="color: red;">❌ Lỗi API: ${data.error.message}</span>`;
+            return;
+        }
+
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+            const resultText = data.candidates[0].content.parts[0].text;
+            // Hiển thị kết quả (Dùng innerText để an toàn và giữ định dạng xuống dòng)
+            box.innerText = resultText;
+            // Tự động cuộn xuống phần câu trả lời
+            box.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            box.innerText = "❌ Không tìm thấy dữ liệu. Bạn hãy thử đặt câu hỏi khác rõ ràng hơn.";
+        }
+
+    } catch (e) {
+        box.innerHTML = `<span style="color: red;">❌ Không kết nối được máy chủ. Vui lòng kiểm tra lại mạng hoặc API Key.</span>`;
+        console.error("Error details:", e);
     }
-
-    if (data.candidates && data.candidates[0].content.parts[0].text) {
-      box.innerText = data.candidates[0].content.parts[0].text;
-    } else {
-      box.innerText = "❌ Không tìm thấy thông tin phù hợp.";
-    }
-
-  } catch (e) {
-    box.innerText = "❌ Lỗi kết nối mạng hoặc sai API Key. Hãy kiểm tra lại!";
-    console.error(e);
-  }
 }
 
-// Xử lý khi nhấn Enter trong ô tìm kiếm
+// Cho phép người dùng nhấn Enter để tìm kiếm
 function handleKeyPress(event) {
-  if (event.key === "Enter") {
-    const query = document.getElementById("searchInput").value;
-    if (query.trim() !== "") {
-      ask(query);
+    if (event.key === "Enter") {
+        const query = document.getElementById("searchInput").value;
+        if (query.trim() !== "") {
+            ask(query);
+        }
     }
-  }
 }
 </script>
 
