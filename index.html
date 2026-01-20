@@ -1,37 +1,27 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Trợ lý thủ tục hành chính cấp xã</title>
 
   <style>
     body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(135deg, #e8f0ff, #f4f6f8);
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
       margin: 0;
       padding: 20px;
     }
-
     h1 {
       text-align: center;
       color: #0a4fa3;
-      margin-bottom: 10px;
     }
-
-    p.subtitle {
-      text-align: center;
-      color: #555;
-      margin-bottom: 30px;
-    }
-
     .buttons {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 15px;
       max-width: 900px;
-      margin: auto;
+      margin: 30px auto;
     }
-
     button {
       padding: 16px;
       font-size: 16px;
@@ -40,22 +30,16 @@
       cursor: pointer;
       background: #0a4fa3;
       color: white;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      transition: transform 0.15s, background 0.15s;
     }
-
     button:hover {
       background: #083b7a;
-      transform: translateY(-2px);
     }
-
     #answer {
       max-width: 900px;
-      margin: 30px auto 0;
+      margin: 30px auto;
       background: white;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       white-space: pre-wrap;
       line-height: 1.6;
     }
@@ -65,47 +49,64 @@
 <body>
 
 <h1>🤖 Trợ lý thủ tục hành chính cấp xã</h1>
-<p class="subtitle">Bấm vào thủ tục – AI hướng dẫn ngay</p>
 
 <div class="buttons">
-  <button onclick="ask('Hướng dẫn thủ tục làm Căn cước công dân tại UBND xã')">🪪 Căn cước công dân</button>
-  <button onclick="ask('Hướng dẫn thủ tục đăng ký khai sinh cho trẻ em')">👶 Khai sinh</button>
-  <button onclick="ask('Hướng dẫn thủ tục đăng ký khai tử')">🕯️ Khai tử</button>
-  <button onclick="ask('Thủ tục đăng ký thường trú tại địa phương')">🏠 Thường trú</button>
-  <button onclick="ask('Thủ tục đăng ký tạm trú')">📍 Tạm trú</button>
-  <button onclick="ask('Thủ tục xin xác nhận tình trạng hôn nhân')">💍 Hôn nhân</button>
-  <button onclick="ask('Thủ tục chứng thực giấy tờ tại UBND xã')">📄 Chứng thực</button>
+  <button onclick="ask('Thủ tục làm căn cước công dân')">Căn cước công dân</button>
+  <button onclick="ask('Thủ tục đăng ký khai sinh')">Khai sinh</button>
+  <button onclick="ask('Thủ tục đăng ký khai tử')">Khai tử</button>
+  <button onclick="ask('Thủ tục đăng ký thường trú')">Thường trú</button>
+  <button onclick="ask('Thủ tục đăng ký tạm trú')">Tạm trú</button>
+  <button onclick="ask('Thủ tục xác nhận tình trạng hôn nhân')">Hôn nhân</button>
+  <button onclick="ask('Thủ tục chứng thực giấy tờ tại UBND xã')">Chứng thực</button>
 </div>
 
-<div id="answer">👉 Vui lòng chọn một thủ tục để xem hướng dẫn</div>
+<div id="answer">👉 Bấm vào một thủ tục để xem hướng dẫn</div>
 
-<script type="module">
-  import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+<script>
+const API_KEY = "AIzaSyBo9Xu74g5VcAn5qxWlpcwlG1wMlJDv6nY";
 
-  // 🔑 DÁN API KEY CỦA BẠN VÀO ĐÂY
-  const genAI = new GoogleGenerativeAI("AIzaSyBo9Xu74g5VcAn5qxWlpcwlG1wMlJDv6nY");
+async function ask(question) {
+  const box = document.getElementById("answer");
+  box.innerText = "⏳ Đang tra cứu...";
 
-  async function ask(question) {
-    const answerBox = document.getElementById("answer");
-    answerBox.innerText = "⏳ Đang tra cứu, vui lòng chờ...";
+  try {
+    const res = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + API_KEY,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          contents: [{
+            role: "user",
+            parts: [{
+              text:
+`Bạn là trợ lý hành chính cấp xã tại Việt Nam.
+Hãy hướng dẫn rõ ràng, chính xác, dễ hiểu cho người dân.
 
-    try {
-      const model = genAI.getGenerativeModel({
-        model: "gemini-1.5-flash",
-        systemInstruction:
-          "Bạn là trợ lý hành chính cấp xã. Trả lời ngắn gọn, rõ ràng, đúng quy định Việt Nam. Trình bày theo các mục: Đối tượng, Hồ sơ, Thời hạn, Nơi nộp."
-      });
+Câu hỏi: ${question}`
+            }]
+          }]
+        })
+      }
+    );
 
-      const result = await model.generateContent(question);
-      const text = result.response.text();
+    const data = await res.json();
 
-      answerBox.innerText = text;
-    } catch (err) {
-      answerBox.innerText = "❌ Lỗi: " + err.message;
+    if (!data.candidates) {
+      box.innerText = "❌ Không nhận được phản hồi từ hệ thống.";
+      return;
     }
-  }
 
-  window.ask = ask;
+    box.innerText =
+      data.candidates[0].content.parts[0].text;
+
+  } catch (err) {
+    box.innerText = "❌ Lỗi kết nối hoặc API key không hợp lệ.";
+    console.error(err);
+  }
+}
 </script>
 
 </body>
