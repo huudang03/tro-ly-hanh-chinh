@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Trợ lý ảo thủ tục hành chính cấp xã</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #0b5ed7;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+        .desc {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 15px;
+        }
+        button {
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #e9f0ff;
+            transform: translateY(-2px);
+        }
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 13px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🤖 Trợ lý ảo hỗ trợ thủ tục hành chính cấp xã</h1>
+</header>
+
+<div class="container">
+    <p class="desc">
+        Chọn thủ tục cần hỏi – hệ thống sẽ mở Gemini và trả lời ngay cho bạn.
+    </p>
+
+    <div class="buttons">
+        <button onclick="askGemini('Thủ tục đăng ký khai sinh tại UBND cấp xã gồm những giấy tờ gì?')">
+            📄 Đăng ký khai sinh
+        </button>
+
+        <button onclick="askGemini('Thủ tục đăng ký kết hôn tại UBND cấp xã thực hiện như thế nào?')">
+            💍 Đăng ký kết hôn
+        </button>
+
+        <button onclick="askGemini('Thủ tục xác nhận tình trạng hôn nhân tại cấp xã')">
+            📝 Xác nhận tình trạng hôn nhân
+        </button>
+
+        <button onclick="askGemini('Thủ tục chứng thực bản sao từ bản chính tại UBND cấp xã')">
+            ✅ Chứng thực giấy tờ
+        </button>
+
+        <button onclick="askGemini('Thủ tục đăng ký tạm trú tại địa phương')">
+            🏠 Đăng ký tạm trú
+        </button>
+
+        <button onclick="askGemini('UBND cấp xã giải quyết những thủ tục hành chính nào?')">
+            ℹ️ Các thủ tục thuộc thẩm quyền xã
+        </button>
+    </div>
+</div>
+
+<footer>
+    Hệ thống hỗ trợ tra cứu – không thay thế cơ quan nhà nước
+</footer>
+
+<script>
+function askGemini(question) {
+    const url = "https://gemini.google.com/app?prompt=" + encodeURIComponent(question);
+    window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
