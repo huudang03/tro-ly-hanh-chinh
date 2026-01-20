@@ -1,165 +1,81 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Trợ lý thủ tục hành chính cấp xã</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <style>
     body {
-      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: Arial, sans-serif;
       background: #f4f6f8;
       margin: 0;
-    }
-
-    header {
-      background: #0b5ed7;
-      color: white;
       padding: 20px;
+    }
+    h1 {
       text-align: center;
+      color: #0a4fa3;
     }
-
-    header h1 {
-      margin: 0;
-      font-size: 26px;
-    }
-
-    header p {
-      margin-top: 8px;
-      font-size: 15px;
-      opacity: 0.9;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 30px auto;
-      padding: 0 15px;
-    }
-
-    .section {
-      margin-bottom: 30px;
-    }
-
-    .section h2 {
-      font-size: 20px;
-      color: #333;
-      border-left: 5px solid #0b5ed7;
-      padding-left: 10px;
-      margin-bottom: 15px;
-    }
-
     .buttons {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 15px;
+      max-width: 900px;
+      margin: 30px auto;
     }
-
-    .buttons a {
-      text-decoration: none;
-    }
-
-    .buttons button {
-      width: 100%;
-      padding: 14px;
-      font-size: 15px;
-      font-weight: 500;
-      border-radius: 8px;
-      border: 1px solid #dee2e6;
-      background: white;
-      cursor: pointer;
-      transition: 0.2s;
-      text-align: left;
-    }
-
-    .buttons button:hover {
-      background: #e7f1ff;
-      border-color: #0b5ed7;
-      color: #0b5ed7;
-    }
-
-    footer {
-      text-align: center;
+    button {
       padding: 15px;
-      font-size: 13px;
-      color: #666;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #0a4fa3;
+      color: white;
+    }
+    button:hover {
+      background: #083b7a;
+    }
+    #answer {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      white-space: pre-wrap;
     }
   </style>
 </head>
-
 <body>
 
-<header>
-  <h1>TRỢ LÝ THỦ TỤC HÀNH CHÍNH CẤP XÃ</h1>
-  <p>Hỗ trợ người dân tra cứu thủ tục nhanh chóng qua AI Gemini</p>
-</header>
+<h1>🤖 Trợ lý thủ tục hành chính cấp xã</h1>
 
-<div class="container">
-
-  <!-- HỘ TỊCH -->
-  <div class="section">
-    <h2>📄 Hộ tịch</h2>
-    <div class="buttons">
-      <a target="_blank" href="https://gemini.google.com/app?prompt=Thủ tục đăng ký khai sinh tại UBND cấp xã gồm những giấy tờ gì, thời hạn giải quyết bao lâu">
-        <button>Đăng ký khai sinh</button>
-      </a>
-
-      <a target="_blank" href="https://gemini.google.com/app?prompt=Thủ tục đăng ký kết hôn tại UBND cấp xã theo quy định hiện hành">
-        <button>Đăng ký kết hôn</button>
-      </a>
-
-      <a target="_blank" href="https://gemini.google.com/app?prompt=Thủ tục đăng ký khai tử tại UBND cấp xã cần những giấy tờ gì">
-        <button>Đăng ký khai tử</button>
-      </a>
-    </div>
-  </div>
-
-  <!-- CHỨNG THỰC -->
-  <div class="section">
-    <h2>📑 Chứng thực</h2>
-    <div class="buttons">
-      <a target="_blank" href="https://gemini.google.com/app?prompt=Thủ tục chứng thực bản sao từ bản chính tại UBND cấp xã">
-        <button>Chứng thực bản sao</button>
-      </a>
-
-      <a target="_blank" href="https://gemini.google.com/app?prompt=Thủ tục chứng thực chữ ký tại UBND cấp xã">
-        <button>Chứng thực chữ ký</button>
-      </a>
-    </div>
-  </div>
-
-  <!-- CƯ TRÚ -->
-  <div class="section">
-    <h2>🏠 Cư trú</h2>
-    <div class="buttons">
-      <a target="_blank" href="https://gemini.google.com/app?prompt=Thủ tục đăng ký thường trú tại địa phương theo Luật cư trú">
-        <button>Đăng ký thường trú</button>
-      </a>
-
-      <a target="_blank" href="https://gemini.google.com/app?prompt=Thủ tục đăng ký tạm trú tại UBND cấp xã">
-        <button>Đăng ký tạm trú</button>
-      </a>
-    </div>
-  </div>
-
-  <!-- BẢO TRỢ XÃ HỘI -->
-  <div class="section">
-    <h2>🤝 Bảo trợ xã hội</h2>
-    <div class="buttons">
-      <a target="_blank" href="https://gemini.google.com/app?prompt=Thủ tục đề nghị hưởng trợ cấp bảo trợ xã hội tại UBND cấp xã">
-        <button>Trợ cấp bảo trợ xã hội</button>
-      </a>
-
-      <a target="_blank" href="https://gemini.google.com/app?prompt=Thủ tục xác nhận hộ nghèo, hộ cận nghèo tại địa phương">
-        <button>Xác nhận hộ nghèo, cận nghèo</button>
-      </a>
-    </div>
-  </div>
-
+<div class="buttons">
+  <button onclick="ask('Thủ tục làm căn cước công dân')">Căn cước công dân</button>
+  <button onclick="ask('Thủ tục đăng ký khai sinh')">Khai sinh</button>
+  <button onclick="ask('Thủ tục đăng ký khai tử')">Khai tử</button>
+  <button onclick="ask('Thủ tục đăng ký thường trú')">Thường trú</button>
+  <button onclick="ask('Thủ tục đăng ký tạm trú')">Tạm trú</button>
+  <button onclick="ask('Xác nhận tình trạng hôn nhân')">Hôn nhân</button>
+  <button onclick="ask('Chứng thực giấy tờ tại UBND xã')">Chứng thực</button>
 </div>
 
-<footer>
-  © UBND cấp xã – Trợ lý hành chính AI (thử nghiệm)
-</footer>
+<div id="answer">👉 Bấm vào một thủ tục để xem hướng dẫn</div>
+
+<script>
+async function ask(question) {
+  document.getElementById("answer").innerText = "⏳ Đang tra cứu...";
+  
+  const res = await fetch(
+    "https://steep-voice-7ff9.dohuudang2003.workers.dev",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question })
+    }
+  );
+
+  const data = await res.json();
+  document.getElementById("answer").innerText = data.answer;
+}
+</script>
 
 </body>
 </html>
