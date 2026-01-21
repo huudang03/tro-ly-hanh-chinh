@@ -6,74 +6,82 @@
     <title>Trợ lý hành chính xã</title>
     <style>
         :root { --primary: #0a4fa3; --bg: #f4f6f8; }
-        body { margin: 0; font-family: sans-serif; background: var(--bg); color: #333; }
-        header { background: var(--primary); color: white; padding: 20px; text-align: center; }
+        body { margin: 0; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: #333; }
+        header { background: var(--primary); color: white; padding: 25px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .container { max-width: 900px; margin: auto; padding: 20px; }
         .search-box { margin-bottom: 20px; }
-        .search-box input { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ccc; box-sizing: border-box; }
-        .buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
-        .card { background: white; padding: 15px; border-radius: 10px; cursor: pointer; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .card:hover { background: #eef2ff; }
-        #answer { margin-top: 20px; background: white; padding: 20px; border-radius: 10px; min-height: 100px; border-left: 5px solid var(--primary); white-space: pre-wrap; }
-        .loading { color: blue; font-weight: bold; }
+        .search-box input { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ccc; box-sizing: border-box; font-size: 16px; }
+        .buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+        .card { background: white; padding: 15px; border-radius: 12px; cursor: pointer; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.2s; border: 1px solid #eee; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-color: #0a4fa3; }
+        #answer { margin-top: 25px; background: white; padding: 25px; border-radius: 12px; min-height: 100px; border-left: 6px solid var(--primary); white-space: pre-wrap; line-height: 1.6; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .loading { color: #0a4fa3; font-weight: bold; text-align: center; display: block; animation: blink 1.5s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <header>
     <h1>🤖 Trợ lý thủ tục hành chính cấp xã</h1>
-    <p>Hướng dẫn nhanh – chính xác – dễ hiểu</p>
+    <p>Giải đáp nhanh chóng các quy định pháp luật hiện hành</p>
 </header>
 
 <div class="container">
     <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Nhập câu hỏi và nhấn Enter..." onkeypress="handleKeyPress(event)">
+        <input type="text" id="searchInput" placeholder="Nhập câu hỏi (VD: hồ sơ khai sinh gồm những gì?) và nhấn Enter..." onkeypress="handleKeyPress(event)">
     </div>
 
     <div class="buttons">
-        <div class="card" onclick="ask('Thủ tục làm Căn cước công dân')"><h3>🪪 Căn cước</h3></div>
-        <div class="card" onclick="ask('Thủ tục đăng ký khai sinh')"><h3>👶 Khai sinh</h3></div>
-        <div class="card" onclick="ask('Thủ tục đăng ký tạm trú')"><h3>📍 Tạm trú</h3></div>
-        <div class="card" onclick="ask('Thủ tục xác nhận tình trạng hôn nhân')"><h3>💍 Kết hôn</h3></div>
+        <div class="card" onclick="ask('Thủ tục làm thẻ Căn cước công dân mới nhất')"><h3>🪪 Căn cước</h3></div>
+        <div class="card" onclick="ask('Thủ tục đăng ký khai sinh cho trẻ em')"><h3>👶 Khai sinh</h3></div>
+        <div class="card" onclick="ask('Thủ tục đăng ký tạm trú tại xã')"><h3>📍 Tạm trú</h3></div>
+        <div class="card" onclick="ask('Thủ tục xin giấy xác nhận tình trạng hôn nhân')"><h3>💍 Kết hôn</h3></div>
     </div>
 
-    <div id="answer">👉 Hãy chọn một thủ tục hoặc nhập câu hỏi phía trên.</div>
+    <div id="answer">👉 Hãy chọn một thủ tục ở trên hoặc nhập câu hỏi để bắt đầu.</div>
 </div>
 
 <script>
 // ==========================================
-// 1. THAY API KEY THẬT CỦA BẠN VÀO ĐÂY
-const MY_API_KEY = "AIzaSyBlr2hK8YBAzq2CEjZxPcHFoJPXgjT5FkI"; 
+// 1. THAY API KEY CỦA BẠN VÀO ĐÂY
+const YOUR_API_KEY = "AIzaSyBlr2hK8YBAzq2CEjZxPcHFoJPXgjT5FkI"; 
 // ==========================================
 
 async function ask(question) {
     const box = document.getElementById("answer");
-    box.innerHTML = "<span class='loading'>⏳ Đang tra cứu, vui lòng đợi...</span>";
+    box.innerHTML = "<span class='loading'>⏳ Trợ lý đang tra cứu dữ liệu pháp luật, vui lòng đợi...</span>";
 
     try {
-        // DÙNG URL CỐ ĐỊNH NÀY ĐỂ TRÁNH LỖI "NOT FOUND"
-        const finalUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + MY_API_KEY;
+        // DÙNG PHIÊN BẢN v1 (STABLE) VÀ TÊN MODEL CHUẨN
+        const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${YOUR_API_KEY}`;
 
-        const response = await fetch(finalUrl, {
+        const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                contents: [{ parts: [{ text: "Hướng dẫn ngắn gọn thủ tục: " + question }] }]
+                contents: [{ 
+                    parts: [{ 
+                        text: "Bạn là chuyên viên tư vấn hành chính. Hãy hướng dẫn ngắn gọn các bước, hồ sơ và nơi nộp cho thủ tục: " + question 
+                    }] 
+                }]
             })
         });
 
         const data = await response.json();
 
         if (data.error) {
-            // Nếu vẫn lỗi, nó sẽ hiện mã lỗi cụ thể ở đây
-            box.innerHTML = "<span style='color:red'>❌ Lỗi: " + data.error.message + "</span>";
+            // Hiển thị chi tiết lỗi nếu có để dễ chẩn đoán
+            box.innerHTML = `<div style="color:red">
+                <b>❌ Lỗi hệ thống:</b> ${data.error.message}<br>
+                <small>Mã lỗi: ${data.error.status}</small>
+            </div>`;
         } else if (data.candidates && data.candidates[0].content.parts[0].text) {
             box.innerText = data.candidates[0].content.parts[0].text;
         } else {
-            box.innerText = "❌ Không tìm thấy phản hồi.";
+            box.innerText = "❌ Không tìm thấy thông tin trả về từ AI.";
         }
     } catch (e) {
-        box.innerText = "❌ Lỗi kết nối mạng.";
+        box.innerText = "❌ Lỗi kết nối mạng. Vui lòng kiểm tra lại đường truyền.";
     }
 }
 
