@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -10,11 +9,8 @@
         body { margin: 0; font-family: sans-serif; background: var(--bg); padding-bottom: 50px; }
         header { background: var(--primary); color: white; padding: 25px; text-align: center; }
         .container { max-width: 800px; margin: auto; padding: 20px; }
-        .search-box { margin-bottom: 20px; }
-        .search-box input { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box; }
-        .buttons { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
-        .card { background: white; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.3s; }
-        .card:hover { background: #e0e7ff; transform: translateY(-3px); }
+        .card { background: white; padding: 20px; border-radius: 12px; cursor: pointer; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 10px; transition: 0.3s; }
+        .card:hover { background: #e0e7ff; }
         #answer { margin-top: 25px; background: white; padding: 25px; border-radius: 12px; min-height: 100px; border-left: 6px solid #0a4fa3; white-space: pre-wrap; line-height: 1.6; }
         .loading { color: #0a4fa3; font-weight: bold; text-align: center; display: block; }
     </style>
@@ -23,68 +19,51 @@
 
 <header>
     <h1>🤖 Trợ lý thủ tục hành chính cấp xã</h1>
-    <p>Giải đáp nhanh thủ tục tư pháp, hộ tịch</p>
+    <p>Giải đáp thủ tục tự động qua AI</p>
 </header>
 
 <div class="container">
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Nhập câu hỏi và nhấn Enter..." onkeypress="handleKeyPress(event)">
-    </div>
-
-    <div class="buttons">
-        <div class="card" onclick="ask('Thủ tục làm thẻ Căn cước công dân')"><h3>🪪 Căn cước</h3></div>
-        <div class="card" onclick="ask('Thủ tục đăng ký khai sinh')"><h3>👶 Khai sinh</h3></div>
-        <div class="card" onclick="ask('Thủ tục đăng ký tạm trú')"><h3>📍 Tạm trú</h3></div>
-        <div class="card" onclick="ask('Xác nhận tình trạng hôn nhân')"><h3>💍 Kết hôn</h3></div>
-    </div>
-
-    <div id="answer">👉 Hãy chọn một mục hoặc đặt câu hỏi.</div>
+    <div class="card" onclick="ask('Thủ tục làm Căn cước công dân')"><h3>🪪 Click để thử: Căn cước công dân</h3></div>
+    <div id="answer">👉 Hãy nhấn vào nút trên để kiểm tra kết nối AI.</div>
 </div>
 
 <script type="importmap">
-  {
-    "imports": {
-      "@google/generative-ai": "https://esm.run/@google/generative-ai"
-    }
-  }
+  { "imports": { "@google/generative-ai": "https://esm.run/@google/generative-ai" } }
 </script>
 
 <script type="module">
     import { GoogleGenerativeAI } from "@google/generative-ai";
 
-    // 1. DÁN API KEY CỦA BẠN VÀO ĐÂY
+    // 1. THAY API KEY CỦA BẠN VÀO ĐÂY
     const API_KEY = "AIzaSyBdbns61Cm8eB4ywsfeYQ-QW5Ch4Frzy7c";
     const genAI = new GoogleGenerativeAI(API_KEY);
 
+    // Danh sách các model để thử lỗi 404
+    const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-flash-8b", "gemini-1.0-pro"];
+
     window.ask = async function(question) {
         const box = document.getElementById("answer");
-        box.innerHTML = "<span class='loading'>⏳ Đang kết nối với trí tuệ nhân tạo...</span>";
+        box.innerHTML = "<span class='loading'>⏳ Đang tìm kiếm model AI phù hợp với Key của bạn...</span>";
 
-        try {
-            // Sử dụng model 'gemini-1.5-flash' thông qua thư viện
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-            
-            const prompt = "Bạn là trợ lý hành chính xã. Hãy hướng dẫn thủ tục: " + question;
-            const result = await model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
-
-            box.innerText = text;
-        } catch (error) {
-            box.innerHTML = `<div style="color:red">
-                <b>❌ Lỗi kết nối:</b> ${error.message}<br>
-                <p>Hãy kiểm tra lại API Key hoặc VPN (nếu bạn đang ở vùng bị giới hạn).</p>
-            </div>`;
-        }
-    }
-
-    window.handleKeyPress = function(event) {
-        if (event.key === "Enter") {
-            const q = document.getElementById("searchInput").value;
-            if (q.trim()) window.ask(q);
+        for (let modelName of modelsToTry) {
+            try {
+                console.log("Đang thử model: " + modelName);
+                const model = genAI.getGenerativeModel({ model: modelName });
+                const result = await model.generateContent("Hướng dẫn ngắn gọn thủ tục: " + question);
+                const response = await result.response;
+                box.innerText = response.text();
+                return; // Nếu thành công thì dừng lại luôn
+            } catch (error) {
+                console.error("Lỗi với model " + modelName + ": ", error);
+                if (modelName === modelsToTry[modelsToTry.length - 1]) {
+                    box.innerHTML = `<b style="color:red">❌ Tất cả model đều không chạy được.</b><br>
+                                    Lỗi cuối cùng: ${error.message}<br><br>
+                                    <b>Lời khuyên:</b> Bạn hãy vào Google AI Studio tạo 1 API Key mới hoàn toàn ở một Project mới.`;
+                }
+                // Nếu lỗi 404 thì vòng lặp sẽ tiếp tục thử model tiếp theo
+            }
         }
     }
 </script>
-
 </body>
 </html>
