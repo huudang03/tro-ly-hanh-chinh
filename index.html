@@ -110,9 +110,9 @@
   <div class="category">
     <h2>📄 Hộ tịch</h2>
     <div class="grid">
-      <div class="card"><i class="fa-solid fa-baby"></i><h3>Đăng ký khai sinh</h3></div>
-      <div class="card"><i class="fa-solid fa-ring"></i><h3>Đăng ký kết hôn</h3></div>
-      <div class="card"><i class="fa-solid fa-skull"></i><h3>Đăng ký khai tử</h3></div>
+      <div class="card" onclick="hoiThuTuc('Đăng ký khai sinh')"><i class="fa-solid fa-baby"></i><h3>Đăng ký khai sinh</h3></div>
+      <div class="card" onclick="hoiThuTuc('Đăng ký kết hôn')"><i class="fa-solid fa-ring"></i><h3>Đăng ký kết hôn</h3></div>
+      <div class="card" onclick="hoiThuTuc('Đăng ký khai tử')"><i class="fa-solid fa-skull"></i><h3>Đăng ký khai tử</h3></div>
       <div class="card"><i class="fa-solid fa-pen"></i><h3>Cải chính hộ tịch</h3></div>
       <div class="card"><i class="fa-solid fa-file-circle-plus"></i><h3>Cấp bản sao hộ tịch</h3></div>
     </div>
@@ -154,9 +154,7 @@
     </div>
   </div>
 
-  <div class="result">
-    👉 Chọn một thủ tục để xem hướng dẫn chi tiết từ trợ lý AI.
-  </div>
+  <div class="result" id="ketqua">👉 Chọn một thủ tục để xem hướng dẫn chi tiết từ trợ lý AI.</div>
 
 </div>
 
@@ -164,5 +162,24 @@
   © 2026 – Trợ lý thủ tục hành chính cấp xã | Thông tin mang tính tham khảo
 </footer>
 
+<script>
+async function hoiThuTuc(thuTuc) {
+  const ketqua = document.getElementById('ketqua');
+  ketqua.innerHTML = '⏳ Đang lấy hướng dẫn cho thủ tục <b>' + thuTuc + '</b>...';
+
+  try {
+    const res = await fetch('https://YOUR-WORKER-URL.workers.dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ thu_tuc: thuTuc })
+    });
+
+    const data = await res.json();
+    ketqua.innerHTML = '<h3>📌 Hướng dẫn thủ tục: ' + thuTuc + '</h3><pre style="white-space:pre-wrap;line-height:1.6">' + data.tra_loi + '</pre>';
+  } catch (e) {
+    ketqua.innerHTML = '❌ Không thể kết nối trợ lý AI. Vui lòng thử lại sau.';
+  }
+}
+</script>
 </body>
 </html>
