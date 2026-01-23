@@ -2,186 +2,154 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Cổng dịch vụ công cấp xã</title>
+<title>Cổng tra cứu thủ tục cấp xã</title>
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Segoe UI,Arial;
-  background:#eef2f6;
-}
+body{margin:0;font-family:Segoe UI,Arial;background:#eef3f8}
 header{
-  background:#0a4fa3;
-  color:white;
-  padding:16px 30px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  background:linear-gradient(90deg,#0a4fa3,#0d62d0);
+  color:white;padding:20px 30px
 }
-header h1{font-size:20px;margin:0}
-header span{font-size:14px;opacity:.9}
+header h1{margin:0;font-size:22px}
+header p{margin:4px 0 0;font-size:14px;opacity:.9}
 
-.main{
-  padding:25px;
-  max-width:1200px;
-  margin:auto;
+.container{max-width:1200px;margin:auto;padding:25px}
+
+.search-box input{
+  width:100%;padding:14px;border-radius:10px;border:1px solid #ccc;font-size:16px
 }
-.search{
-  display:flex;
-  gap:10px;
-  margin-bottom:25px;
+
+.section-title{
+  margin:30px 0 10px;
+  font-size:18px;
+  color:#0a4fa3;
+  border-left:6px solid #0a4fa3;
+  padding-left:10px
 }
-.search input{
-  flex:1;
-  padding:14px;
-  border-radius:10px;
-  border:1px solid #ccc;
-  font-size:16px;
-}
+
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
-}
-.card{
-  background:white;
-  border-radius:14px;
-  padding:20px;
-  box-shadow:0 6px 16px rgba(0,0,0,.08);
-  cursor:pointer;
-  transition:.2s;
-}
-.card:hover{
-  transform:translateY(-5px);
-}
-.card h3{
-  margin:0 0 10px;
-  color:#0a4fa3;
-}
-.card p{
-  margin:0;
-  color:#555;
-  font-size:14px;
+  gap:18px
 }
 
+.card{
+  background:white;border-radius:14px;padding:18px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  transition:.2s;cursor:pointer
+}
+.card:hover{transform:translateY(-5px)}
+.card h3{margin:0 0 8px;color:#0a4fa3;font-size:16px}
+.card p{margin:0;font-size:14px;color:#555}
+
 .modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.45);
-  display:none;
-  justify-content:center;
-  align-items:center;
+  position:fixed;inset:0;background:rgba(0,0,0,.5);
+  display:none;justify-content:center;align-items:center;padding:15px
 }
 .modal-box{
-  background:white;
-  width:90%;
-  max-width:600px;
-  border-radius:16px;
-  padding:25px;
+  background:white;border-radius:16px;padding:25px;
+  max-width:700px;width:100%;max-height:90vh;overflow:auto
 }
 .modal-box h2{margin-top:0;color:#0a4fa3}
+
+.info{margin-bottom:12px}
 .step{
-  background:#f4f7fb;
-  border-left:5px solid #0a4fa3;
-  padding:10px 14px;
-  margin-bottom:10px;
+  background:#f1f6fd;border-left:5px solid #0a4fa3;
+  padding:10px;margin-bottom:8px;border-radius:6px
 }
+
 button{
-  background:#0a4fa3;
-  color:white;
-  border:none;
-  padding:12px 20px;
-  border-radius:10px;
-  cursor:pointer;
-  margin-top:10px;
+  background:#0a4fa3;color:white;border:none;
+  padding:10px 16px;border-radius:10px;margin-top:10px;cursor:pointer
 }
-.close{
-  background:#aaa;
-  margin-left:10px;
-}
-footer{
-  text-align:center;
-  padding:16px;
-  color:#666;
-}
+footer{text-align:center;padding:15px;color:#666;margin-top:30px}
 </style>
 </head>
 <body>
 
 <header>
-<h1>🇻🇳 CỔNG DỊCH VỤ CÔNG CẤP XÃ</h1>
-<span>Tư vấn & hướng dẫn thủ tục hành chính</span>
+<h1>🇻🇳 CỔNG HƯỚNG DẪN THỦ TỤC HÀNH CHÍNH CẤP XÃ</h1>
+<p>Tra cứu hồ sơ, giấy tờ và quy trình thực hiện cho công dân</p>
 </header>
 
-<div class="main">
-<div class="search">
-<input id="search" placeholder="Nhập tên thủ tục (vd: khai sinh, hộ nghèo...)">
+<div class="container">
+
+<div class="search-box">
+<input id="search" placeholder="Tìm thủ tục... (ví dụ: khai sinh, kết hôn, tạm trú)">
 </div>
 
-<div class="grid" id="list"></div>
+<div id="content"></div>
+
 </div>
 
-<footer>
-UBND Cấp Xã – Hệ thống tư vấn thủ tục
-</footer>
+<footer>UBND Cấp Xã – Hệ thống hướng dẫn thủ tục cho công dân</footer>
 
 <div class="modal" id="modal">
 <div class="modal-box">
 <h2 id="title"></h2>
-<div id="content"></div>
-<button>Nộp hồ sơ online (mô phỏng)</button>
-<button class="close" onclick="closeModal()">Đóng</button>
+<div id="detail"></div>
+<button onclick="closeModal()">Đóng</button>
 </div>
 </div>
 
 <script>
-const data=[
-{
-ten:"Đăng ký khai sinh",
-moTa:"Đăng ký giấy khai sinh cho trẻ em",
-hoSo:["Giấy chứng sinh","CCCD cha mẹ","Sổ hộ khẩu"],
-buoc:["Chuẩn bị hồ sơ","Nộp tại UBND xã hoặc online","Nhận kết quả"]
-},
-{
-ten:"Đăng ký kết hôn",
-moTa:"Xác lập quan hệ hôn nhân",
-hoSo:["CCCD 2 bên","Giấy xác nhận tình trạng hôn nhân"],
-buoc:["Nộp hồ sơ","Kiểm tra điều kiện","Cấp giấy kết hôn"]
-},
-{
-ten:"Xác nhận hộ nghèo",
-moTa:"Phục vụ chính sách xã hội",
-hoSo:["Đơn đề nghị","Sổ hộ khẩu"],
-buoc:["Tiếp nhận hồ sơ","Xác minh","Cấp giấy xác nhận"]
-}
-];
+const procedures = {
+"Hộ tịch":[
+{ten:"Đăng ký khai sinh",moTa:"Làm giấy khai sinh cho trẻ em",hoSo:["Giấy chứng sinh","CCCD cha/mẹ","Sổ hộ khẩu"],thoiHan:"Trong ngày",lePhi:"Miễn phí",buoc:["Chuẩn bị hồ sơ","Nộp tại UBND xã","Nhận giấy khai sinh"]},
+{ten:"Đăng ký khai tử",moTa:"Khai báo người đã mất",hoSo:["Giấy báo tử","CCCD người đi khai"],thoiHan:"Trong ngày",lePhi:"Miễn phí",buoc:["Nộp hồ sơ","Ghi sổ hộ tịch","Cấp trích lục khai tử"]},
+{ten:"Đăng ký kết hôn",moTa:"Thủ tục kết hôn hợp pháp",hoSo:["CCCD hai bên","Giấy xác nhận tình trạng hôn nhân"],thoiHan:"Trong ngày",lePhi:"Miễn phí",buoc:["Nộp hồ sơ","Xác minh","Trao giấy chứng nhận kết hôn"]},
+{ten:"Cấp lại trích lục hộ tịch",moTa:"Xin bản sao khai sinh/kết hôn",hoSo:["CCCD người yêu cầu"],thoiHan:"1–3 ngày",lePhi:"Theo quy định",buoc:["Nộp yêu cầu","Tra cứu hồ sơ","Cấp trích lục"]}
+],
 
-const list=document.getElementById("list");
+"Cư trú":[
+{ten:"Đăng ký thường trú",moTa:"Nhập hộ khẩu thường trú",hoSo:["Tờ khai cư trú","Giấy tờ nhà ở","CCCD"],thoiHan:"7 ngày",lePhi:"Theo quy định",buoc:["Chuẩn bị hồ sơ","Nộp công an xã","Nhận kết quả"]},
+{ten:"Đăng ký tạm trú",moTa:"Khai báo tạm trú",hoSo:["CCCD","Giấy tờ chỗ ở hợp pháp"],thoiHan:"3 ngày",lePhi:"Miễn phí",buoc:["Khai báo","Xác nhận","Cấp giấy tạm trú"]},
+{ten:"Xác nhận thông tin cư trú",moTa:"Xin giấy xác nhận nơi cư trú",hoSo:["CCCD"],thoiHan:"1–2 ngày",lePhi:"Miễn phí",buoc:["Nộp yêu cầu","Kiểm tra dữ liệu","Cấp giấy xác nhận"]}
+],
+
+"Chứng thực":[
+{ten:"Chứng thực bản sao từ bản chính",moTa:"Xác nhận bản sao đúng với bản chính",hoSo:["Bản chính + bản sao"],thoiHan:"Trong ngày",lePhi:"2.000đ/trang",buoc:["Nộp bản sao","Đối chiếu","Đóng dấu chứng thực"]},
+{ten:"Chứng thực chữ ký",moTa:"Xác nhận chữ ký cá nhân",hoSo:["CCCD","Giấy tờ cần ký"],thoiHan:"Trong ngày",lePhi:"10.000đ/lần",buoc:["Ký trước mặt cán bộ","Xác minh","Đóng dấu chứng thực"]},
+{ten:"Chứng thực hợp đồng, giao dịch",moTa:"Chứng thực mua bán, ủy quyền...",hoSo:["Hợp đồng","CCCD các bên"],thoiHan:"Trong ngày",lePhi:"Theo giá trị hợp đồng",buoc:["Soạn hợp đồng","Ký trước cán bộ","Chứng thực"]}
+],
+
+"Chính sách xã hội":[
+{ten:"Xác nhận hộ nghèo/cận nghèo",moTa:"Phục vụ hưởng chính sách hỗ trợ",hoSo:["Đơn đề nghị","Sổ hộ khẩu"],thoiHan:"5 ngày",lePhi:"Miễn phí",buoc:["Nộp hồ sơ","Xác minh","Cấp giấy xác nhận"]},
+{ten:"Xác nhận khuyết tật",moTa:"Hưởng chế độ trợ cấp",hoSo:["Hồ sơ y tế","Đơn đề nghị"],thoiHan:"7 ngày",lePhi:"Miễn phí",buoc:["Nộp hồ sơ","Họp hội đồng","Cấp giấy xác nhận"]}
+]
+};
+
+const content=document.getElementById("content");
 const modal=document.getElementById("modal");
 const title=document.getElementById("title");
-const content=document.getElementById("content");
+const detail=document.getElementById("detail");
 
-function render(f=""){
-list.innerHTML="";
-data.filter(d=>d.ten.toLowerCase().includes(f))
-.forEach(d=>{
-list.innerHTML+=`
-<div class="card" onclick='openModal(${JSON.stringify(d)})'>
-<h3>${d.ten}</h3>
-<p>${d.moTa}</p>
-</div>`;
-});
+function render(filter=""){
+content.innerHTML="";
+for(let group in procedures){
+let items=procedures[group].filter(p=>p.ten.toLowerCase().includes(filter));
+if(items.length===0) continue;
+content.innerHTML+=`<div class="section-title">${group}</div><div class="grid">`+
+items.map(p=>`
+<div class="card" onclick='openModal(${JSON.stringify(p)})'>
+<h3>${p.ten}</h3>
+<p>${p.moTa}</p>
+</div>`).join("")+"</div>";
 }
-function openModal(d){
-title.innerText=d.ten;
-content.innerHTML=`
-<strong>📂 Hồ sơ cần chuẩn bị:</strong>
-<ul>${d.hoSo.map(h=>`<li>${h}</li>`).join("")}</ul>
-<strong>🪜 Các bước thực hiện:</strong>
-${d.buoc.map((b,i)=>`<div class="step">Bước ${i+1}: ${b}</div>`).join("")}
+}
+
+function openModal(p){
+title.innerText=p.ten;
+detail.innerHTML=`
+<div class="info"><strong>📄 Hồ sơ cần chuẩn bị:</strong><ul>${p.hoSo.map(h=>`<li>${h}</li>`).join("")}</ul></div>
+<div class="info"><strong>⏳ Thời hạn giải quyết:</strong> ${p.thoiHan}</div>
+<div class="info"><strong>💰 Lệ phí:</strong> ${p.lePhi}</div>
+<div><strong>🪜 Các bước thực hiện:</strong>
+${p.buoc.map((b,i)=>`<div class="step">Bước ${i+1}: ${b}</div>`).join("")}</div>
 `;
 modal.style.display="flex";
 }
+
 function closeModal(){modal.style.display="none";}
 document.getElementById("search").oninput=e=>render(e.target.value.toLowerCase());
 render();
