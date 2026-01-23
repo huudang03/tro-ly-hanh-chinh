@@ -1,154 +1,204 @@
 <!DOCTYPE html>
-
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <title>Cổng Tư Vấn Thủ Tục Hành Chính Cấp Xã</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body { font-family: Arial, sans-serif; background:#eef2f6; margin:0; padding:20px; }
-    h1 { text-align:center; color:#0a4fa3; margin-bottom:10px; }
-    .subtitle { text-align:center; color:#555; margin-bottom:25px; }
-    .container { max-width:1200px; margin:auto; display:flex; gap:20px; }
-    .left { width:35%; background:#fff; padding:15px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.1); }
-    .right { width:65%; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.1); }
-    input { width:100%; padding:10px; margin-bottom:12px; border:1px solid #ccc; border-radius:4px; }
-    .group { margin-bottom:15px; }
-    .group h3 { background:#0a4fa3; color:#fff; padding:8px; border-radius:4px; font-size:15px; }
-    button { width:100%; padding:10px; margin:6px 0; cursor:pointer; border:1px solid #ddd; border-radius:4px; background:#f9fafb; text-align:left; }
-    button:hover { background:#e6f0ff; }
-    ul, ol { margin-left:20px; }
-    .tag { display:inline-block; background:#e6f0ff; color:#0a4fa3; padding:3px 8px; border-radius:12px; font-size:12px; margin-right:6px; }
-    .section { margin-top:15px; }
-    .section h4 { margin-bottom:6px; color:#0a4fa3; }
-    .note { background:#fff8e1; padding:10px; border-left:4px solid #f4b400; margin-top:10px; }
-  </style>
+<meta charset="UTF-8">
+<title>Trợ lý Thủ tục Hành chính Cấp Xã</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f5f8;
+  margin: 0;
+}
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+h1 {
+  text-align: center;
+  color: #0a4fa3;
+}
+.search-box input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+.category {
+  background: #0a4fa3;
+  color: #fff;
+  padding: 10px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+.procedure {
+  background: #fff;
+  padding: 12px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+.procedure:hover {
+  background: #eef3ff;
+}
+#detail {
+  margin-top: 25px;
+  background: #fff;
+  padding: 20px;
+  border-left: 5px solid #0a4fa3;
+}
+.hidden { display: none; }
+</style>
 </head>
+
 <body>
-  <h1>Trợ Lý Tư Vấn Thủ Tục Hành Chính Cấp Xã</h1>
-  <div class="subtitle">Hướng dẫn người dân chuẩn bị hồ sơ – giảm đi lại – làm đúng ngay từ đầu</div>
+<div class="container">
+  <h1>📋 Trợ lý Thủ tục Hành chính Cấp Xã</h1>
 
-  <div class="container">
-    <div class="left">
-      <input type="text" placeholder="🔍 Tìm thủ tục (ví dụ: khai sinh, chứng thực...)" onkeyup="timThuTuc(this.value)" />
-      <div id="danhSach"></div>
-    </div>
-
-```
-<div class="right" id="chiTiet">
-  <p>👈 Vui lòng chọn một thủ tục để xem hướng dẫn chi tiết</p>
-</div>
-```
-
+  <div class="search-box">
+    <input type="text" id="search" placeholder="🔍 Tìm thủ tục (khai sinh, kết hôn, chứng thực...)" onkeyup="searchProcedure()">
   </div>
 
+  <div id="procedureList"></div>
+
+  <div id="detail" class="hidden"></div>
+</div>
+
 <script>
-const thuTuc = [
-  {
-    ten: "Đăng ký khai sinh",
-    nhom: "Hộ tịch",
-    doiTuong: "Cha, mẹ hoặc người giám hộ của trẻ",
-    giayTo: ["Tờ khai đăng ký khai sinh", "Giấy chứng sinh", "CCCD cha, mẹ"],
-    noiNop: "UBND cấp xã nơi cư trú của cha hoặc mẹ",
-    thoiHan: "Giải quyết trong ngày",
-    lePhi: "Miễn phí",
-    buoc: ["Chuẩn bị đầy đủ giấy tờ", "Nộp hồ sơ tại UBND xã hoặc online", "Nhận giấy khai sinh"],
-    faq: [
-      "Có cần cả cha và mẹ cùng đi không? → Không bắt buộc",
-      "Có làm online được không? → Có"
-    ]
-  },
-  {
-    ten: "Đăng ký kết hôn",
-    nhom: "Hộ tịch",
-    doiTuong: "Nam, nữ đủ điều kiện kết hôn",
-    giayTo: ["Tờ khai đăng ký kết hôn", "CCCD hai bên"],
-    noiNop: "UBND xã nơi cư trú của một trong hai bên",
-    thoiHan: "Trong ngày",
-    lePhi: "Miễn phí",
-    buoc: ["Hai bên cùng có mặt", "Ký sổ hộ tịch", "Nhận giấy kết hôn"],
-    faq: ["Hai người phải cùng đi không? → Có"]
-  },
-  {
-    ten: "Chứng thực bản sao từ bản chính",
-    nhom: "Chứng thực",
-    doiTuong: "Công dân có nhu cầu sử dụng bản sao",
-    giayTo: ["Bản chính", "Bản sao"],
-    noiNop: "UBND cấp xã",
-    thoiHan: "Trong ngày",
-    lePhi: "Theo quy định",
-    buoc: ["Xuất trình bản chính", "Yêu cầu chứng thực", "Nhận bản sao"],
-    faq: ["Có cần photo trước không? → Nên chuẩn bị sẵn"]
-  }
-];
+const data = {
+  "Hộ tịch": [
+    {
+      name: "Đăng ký khai sinh",
+      detail: `
+<b>Hồ sơ gồm:</b>
+<ul>
+<li>Giấy chứng sinh</li>
+<li>CCCD cha, mẹ</li>
+<li>Sổ hộ khẩu</li>
+</ul>
+<b>Nơi nộp:</b> UBND cấp xã<br>
+<b>Thời gian:</b> Giải quyết trong ngày<br>
+<b>Lệ phí:</b> Miễn phí
+`
+    },
+    {
+      name: "Đăng ký kết hôn",
+      detail: `
+<b>Hồ sơ gồm:</b>
+<ul>
+<li>Tờ khai đăng ký kết hôn</li>
+<li>CCCD hai bên</li>
+<li>Giấy xác nhận tình trạng hôn nhân</li>
+</ul>
+<b>Nơi nộp:</b> UBND cấp xã<br>
+<b>Thời gian:</b> Trong ngày<br>
+<b>Lệ phí:</b> Miễn phí
+`
+    },
+    {
+      name: "Đăng ký khai tử",
+      detail: `
+<b>Hồ sơ gồm:</b>
+<ul>
+<li>Giấy báo tử</li>
+<li>CCCD người khai</li>
+<li>Sổ hộ khẩu</li>
+</ul>
+<b>Nơi nộp:</b> UBND cấp xã<br>
+<b>Lệ phí:</b> Miễn phí
+`
+    }
+  ],
 
-function hienDanhSach(ds) {
-  const div = document.getElementById("danhSach");
-  div.innerHTML = "";
-  const nhom = [...new Set(ds.map(t => t.nhom))];
-  nhom.forEach(n => {
-    const g = document.createElement("div");
-    g.className = "group";
-    g.innerHTML = `<h3>${n}</h3>`;
-    ds.filter(t => t.nhom === n).forEach(t => {
-      const b = document.createElement("button");
-      b.innerText = t.ten;
-      b.onclick = () => hienChiTiet(t);
-      g.appendChild(b);
+  "Chứng thực": [
+    {
+      name: "Chứng thực bản sao từ bản chính",
+      detail: `
+<b>Hồ sơ:</b> Bản chính + bản sao<br>
+<b>Nơi nộp:</b> UBND cấp xã<br>
+<b>Lệ phí:</b> 2.000 – 5.000đ/trang
+`
+    },
+    {
+      name: "Chứng thực chữ ký",
+      detail: `
+<b>Hồ sơ:</b> CCCD + văn bản cần ký<br>
+<b>Lệ phí:</b> 10.000đ/lần
+`
+    }
+  ],
+
+  "Cư trú": [
+    {
+      name: "Đăng ký thường trú",
+      detail: `
+<b>Hồ sơ:</b>
+<ul>
+<li>Tờ khai cư trú</li>
+<li>CCCD</li>
+<li>Giấy tờ nhà ở</li>
+</ul>
+<b>Nơi nộp:</b> Công an xã
+`
+    },
+    {
+      name: "Đăng ký tạm trú",
+      detail: `
+<b>Hồ sơ:</b> CCCD + hợp đồng thuê nhà<br>
+<b>Thời gian:</b> 3 ngày làm việc
+`
+    }
+  ],
+
+  "Lao động – BHXH": [
+    {
+      name: "Xác nhận thất nghiệp",
+      detail: `
+<b>Hồ sơ:</b> Đơn đề nghị + CCCD<br>
+<b>Nơi nộp:</b> UBND cấp xã
+`
+    },
+    {
+      name: "Xác nhận hoàn cảnh khó khăn",
+      detail: `
+<b>Hồ sơ:</b> Đơn xác nhận<br>
+<b>Thời gian:</b> 1–2 ngày
+`
+    }
+  ]
+};
+
+function render(list = data) {
+  const container = document.getElementById("procedureList");
+  container.innerHTML = "";
+  for (let group in list) {
+    container.innerHTML += `<div class="category">${group}</div>`;
+    list[group].forEach(p => {
+      container.innerHTML += `
+        <div class="procedure" onclick="showDetail('${p.name}', \`${p.detail}\`)">
+          ${p.name}
+        </div>`;
     });
-    div.appendChild(g);
-  });
+  }
 }
 
-function hienChiTiet(t) {
-  document.getElementById("chiTiet").innerHTML = `
-    <h2>${t.ten}</h2>
-    <span class="tag">${t.nhom}</span>
-    <span class="tag">${t.doiTuong}</span>
-
-    <div class="section">
-      <h4>📍 Nơi nộp</h4>
-      <p>${t.noiNop}</p>
-    </div>
-
-    <div class="section">
-      <h4>⏱ Thời hạn giải quyết</h4>
-      <p>${t.thoiHan}</p>
-    </div>
-
-    <div class="section">
-      <h4>💰 Lệ phí</h4>
-      <p>${t.lePhi}</p>
-    </div>
-
-    <div class="section">
-      <h4>📄 Giấy tờ cần chuẩn bị</h4>
-      <ul>${t.giayTo.map(g => `<li>${g}</li>`).join("")}</ul>
-    </div>
-
-    <div class="section">
-      <h4>🧭 Các bước thực hiện</h4>
-      <ol>${t.buoc.map(b => `<li>${b}</li>`).join("")}</ol>
-    </div>
-
-    <div class="section">
-      <h4>❓ Câu hỏi thường gặp</h4>
-      <ul>${t.faq.map(f => `<li>${f}</li>`).join("")}</ul>
-    </div>
-
-    <div class="note">
-      🌐 Có thể nộp online tại <a href="https://dichvucong.gov.vn" target="_blank">Cổng Dịch vụ công Quốc gia</a>
-    </div>
-  `;
+function showDetail(name, detail) {
+  const d = document.getElementById("detail");
+  d.classList.remove("hidden");
+  d.innerHTML = `<h3>${name}</h3>${detail}`;
+  d.scrollIntoView({behavior:"smooth"});
 }
 
-function timThuTuc(tu) {
-  const kq = thuTuc.filter(t => t.ten.toLowerCase().includes(tu.toLowerCase()));
-  hienDanhSach(kq);
+function searchProcedure() {
+  const key = document.getElementById("search").value.toLowerCase();
+  const result = {};
+  for (let g in data) {
+    const filtered = data[g].filter(p => p.name.toLowerCase().includes(key));
+    if (filtered.length) result[g] = filtered;
+  }
+  render(result);
 }
 
-hienDanhSach(thuTuc);
+render();
 </script>
-
 </body>
 </html>
