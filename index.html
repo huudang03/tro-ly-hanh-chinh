@@ -1,295 +1,153 @@
-
 <!DOCTYPE html>
+
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Trợ Lý Thủ Tục Hành Chính Cấp Xã</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Cổng Tư Vấn Thủ Tục Hành Chính Cấp Xã</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background: linear-gradient(135deg, #0a4fa3, #1976d2);
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 26px;
-    }
-
-    header p {
-      margin-top: 8px;
-      font-size: 15px;
-      opacity: 0.95;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 30px auto;
-      padding: 0 15px;
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 20px;
-    }
-
-    .menu {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-      padding: 15px;
-    }
-
-    .menu h2 {
-      margin-top: 0;
-      font-size: 18px;
-      color: #0a4fa3;
-    }
-
-    .menu button {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 10px;
-      border: none;
-      border-radius: 8px;
-      background: #e3f2fd;
-      font-size: 15px;
-      cursor: pointer;
-      text-align: left;
-    }
-
-    .menu button:hover {
-      background: #bbdefb;
-    }
-
-    .content {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-      padding: 20px;
-    }
-
-    .content h3 {
-      margin-top: 0;
-      color: #0a4fa3;
-    }
-
-    .content ul {
-      padding-left: 20px;
-    }
-
-    .badge {
-      display: inline-block;
-      background: #e8f5e9;
-      color: #2e7d32;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 13px;
-      margin-right: 8px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      font-size: 13px;
-      color: #666;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        grid-template-columns: 1fr;
-      }
-    }
+    body { font-family: Arial, sans-serif; background:#eef2f6; margin:0; padding:20px; }
+    h1 { text-align:center; color:#0a4fa3; margin-bottom:10px; }
+    .subtitle { text-align:center; color:#555; margin-bottom:25px; }
+    .container { max-width:1200px; margin:auto; display:flex; gap:20px; }
+    .left { width:35%; background:#fff; padding:15px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.1); }
+    .right { width:65%; background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,.1); }
+    input { width:100%; padding:10px; margin-bottom:12px; border:1px solid #ccc; border-radius:4px; }
+    .group { margin-bottom:15px; }
+    .group h3 { background:#0a4fa3; color:#fff; padding:8px; border-radius:4px; font-size:15px; }
+    button { width:100%; padding:10px; margin:6px 0; cursor:pointer; border:1px solid #ddd; border-radius:4px; background:#f9fafb; text-align:left; }
+    button:hover { background:#e6f0ff; }
+    ul, ol { margin-left:20px; }
+    .tag { display:inline-block; background:#e6f0ff; color:#0a4fa3; padding:3px 8px; border-radius:12px; font-size:12px; margin-right:6px; }
+    .section { margin-top:15px; }
+    .section h4 { margin-bottom:6px; color:#0a4fa3; }
+    .note { background:#fff8e1; padding:10px; border-left:4px solid #f4b400; margin-top:10px; }
   </style>
 </head>
 <body>
+  <h1>Trợ Lý Tư Vấn Thủ Tục Hành Chính Cấp Xã</h1>
+  <div class="subtitle">Hướng dẫn người dân chuẩn bị hồ sơ – giảm đi lại – làm đúng ngay từ đầu</div>
 
-<header>
-  <h1>Trợ Lý Thủ Tục Hành Chính Cấp Xã</h1>
-  <p>Hỗ trợ người dân tra cứu thủ tục nhanh – đúng – dễ hiểu</p>
-</header>
+  <div class="container">
+    <div class="left">
+      <input type="text" placeholder="🔍 Tìm thủ tục (ví dụ: khai sinh, chứng thực...)" onkeyup="timThuTuc(this.value)" />
+      <div id="danhSach"></div>
+    </div>
 
-<div class="container">
-  <div class="menu">
-    <h2>🔍 Tìm kiếm thủ tục</h2>
-    <input id="search" placeholder="Nhập tên thủ tục..." style="width:100%;padding:10px;margin-bottom:12px" oninput="timThuTuc(this.value)">
-
-    <h2>📂 Hộ tịch</h2>
-    <button onclick="xemThuTuc('khai_sinh')">👶 Đăng ký khai sinh</button>
-    <button onclick="xemThuTuc('khai_tu')">⚰️ Đăng ký khai tử</button>
-    <button onclick="xemThuTuc('ket_hon')">💍 Đăng ký kết hôn</button>
-
-    <h2>🏠 Cư trú</h2>
-    <button onclick="xemThuTuc('xac_nhan_cu_tru')">📍 Xác nhận cư trú</button>
-
-    <h2>📄 Chứng thực</h2>
-    <button onclick="xemThuTuc('chung_thuc')">🖨️ Chứng thực giấy tờ</button>
-  </div>
-
-  <div class="content" id="ketqua">
-    <h3>👋 Xin chào!</h3>
-    <p>Vui lòng chọn một thủ tục hành chính bên trái để xem hướng dẫn chi tiết.</p>
-  </div>
+```
+<div class="right" id="chiTiet">
+  <p>👈 Vui lòng chọn một thủ tục để xem hướng dẫn chi tiết</p>
 </div>
+```
 
-<footer>
-  © 2026 – Trợ lý thủ tục hành chính cấp xã | Phiên bản không dùng AI
-</footer>
+  </div>
 
 <script>
-  const THU_TUC = {
-    khai_sinh: {
-      ten: "Đăng ký khai sinh",
-      can_cu_phap_ly: "Luật Hộ tịch 2014; Nghị định 123/2015/NĐ-CP",
-      doi_tuong: "Trẻ em sinh ra trên địa bàn hoặc cư trú tại địa phương",
-      giay_to: [
-        "Tờ khai đăng ký khai sinh (theo mẫu)",
-        "Giấy chứng sinh (bản chính); nếu không có thì văn bản xác nhận của người làm chứng",
-        "CCCD/CMND của cha, mẹ",
-        "Giấy đăng ký kết hôn của cha mẹ (nếu có)"
-      ],
-      trinh_tu: [
-        "Người dân nộp hồ sơ tại Bộ phận một cửa UBND cấp xã",
-        "Công chức tư pháp – hộ tịch kiểm tra hồ sơ",
-        "Ghi vào Sổ hộ tịch và cấp Giấy khai sinh"
-      ],
-      thoi_gian: "Giải quyết trong ngày",
-      le_phi: "Miễn phí",
-      noi_nop: "UBND cấp xã nơi cư trú của cha hoặc mẹ"
-    },
-
-    khai_tu: {
-      ten: "Đăng ký khai tử",
-      can_cu_phap_ly: "Luật Hộ tịch 2014",
-      doi_tuong: "Người thân của người đã mất",
-      giay_to: [
-        "Tờ khai đăng ký khai tử",
-        "Giấy báo tử hoặc giấy xác nhận việc chết",
-        "CCCD/CMND của người đi khai"
-      ],
-      trinh_tu: [
-        "Nộp hồ sơ tại UBND cấp xã",
-        "Công chức hộ tịch tiếp nhận và kiểm tra",
-        "Cấp Trích lục khai tử"
-      ],
-      thoi_gian: "Trong ngày",
-      le_phi: "Miễn phí",
-      noi_nop: "UBND cấp xã nơi cư trú cuối cùng của người đã mất"
-    },
-
-    ket_hon: {
-      ten: "Đăng ký kết hôn",
-      can_cu_phap_ly: "Luật Hộ tịch 2014; Luật Hôn nhân và Gia đình 2014",
-      doi_tuong: "Nam, nữ đủ điều kiện kết hôn theo quy định",
-      giay_to: [
-        "Tờ khai đăng ký kết hôn",
-        "CCCD/CMND của hai bên",
-        "Giấy xác nhận tình trạng hôn nhân"
-      ],
-      trinh_tu: [
-        "Hai bên nam, nữ cùng có mặt tại UBND cấp xã",
-        "Công chức hộ tịch kiểm tra điều kiện kết hôn",
-        "Chủ tịch UBND ký và cấp Giấy chứng nhận kết hôn"
-      ],
-      thoi_gian: "Trong ngày",
-      le_phi: "Miễn phí",
-      noi_nop: "UBND cấp xã nơi cư trú của một trong hai bên"
-    },
-
-    xac_nhan_cu_tru: {
-      ten: "Xác nhận thông tin cư trú",
-      can_cu_phap_ly: "Luật Cư trú 2020",
-      doi_tuong: "Công dân có nhu cầu xác nhận thông tin cư trú",
-      giay_to: [
-        "Đơn đề nghị xác nhận thông tin cư trú",
-        "CCCD gắn chip"
-      ],
-      trinh_tu: [
-        "Nộp hồ sơ tại UBND cấp xã",
-        "Xác minh thông tin trên Cơ sở dữ liệu quốc gia",
-        "Cấp văn bản xác nhận"
-      ],
-      thoi_gian: "01 ngày làm việc",
-      le_phi: "Miễn phí",
-      noi_nop: "UBND cấp xã"
-    },
-
-    chung_thuc: {
-      ten: "Chứng thực bản sao từ bản chính",
-      can_cu_phap_ly: "Nghị định 23/2015/NĐ-CP",
-      doi_tuong: "Cá nhân, tổ chức có nhu cầu chứng thực",
-      giay_to: [
-        "Bản chính giấy tờ cần chứng thực",
-        "Bản sao cần chứng thực",
-        "CCCD/CMND"
-      ],
-      trinh_tu: [
-        "Xuất trình bản chính",
-        "Công chức kiểm tra và chứng thực",
-        "Trả kết quả cho người dân"
-      ],
-      thoi_gian: "Trong ngày",
-      le_phi: "Theo quy định",
-      noi_nop: "UBND cấp xã"
-    }
-  };
-
-  function xemThuTuc(ma) {
-    const t = THU_TUC[ma];
-    let html = `
-      <h3>${t.ten}</h3>
-      <span class="badge">Thủ tục cấp xã</span>
-      <hr>
-      <p><b>⚖️ Căn cứ pháp lý:</b> ${t.can_cu_phap_ly}</p>
-      <p><b>👥 Đối tượng:</b> ${t.doi_tuong}</p>
-      <p><b>📌 Giấy tờ cần chuẩn bị:</b></p>
-      <ul>${t.giay_to.map(g => `<li>${g}</li>`).join('')}</ul>
-      <p><b>🧭 Trình tự thực hiện:</b></p>
-      <ol>${t.trinh_tu.map(b => `<li>${b}</li>`).join('')}</ol>
-      <p><b>⏱ Thời gian:</b> ${t.thoi_gian}</p>
-      <p><b>💰 Lệ phí:</b> ${t.le_phi}</p>
-      <p><b>🏢 Nơi nộp:</b> ${t.noi_nop}</p>
-      <hr>
-      <h4>📝 Nộp hồ sơ trực tuyến (demo)</h4>
-      <form onsubmit="guiHoSo(event, '${ma}')">
-        <input required placeholder="Họ và tên" style="width:100%;padding:8px;margin-bottom:8px"><br>
-        <input required placeholder="Số CCCD" style="width:100%;padding:8px;margin-bottom:8px"><br>
-        <textarea placeholder="Ghi chú" style="width:100%;padding:8px"></textarea><br><br>
-        <button type="submit">Gửi hồ sơ</button>
-      </form>
-    `;
-    document.getElementById('ketqua').innerHTML = html;
+const thuTuc = [
+  {
+    ten: "Đăng ký khai sinh",
+    nhom: "Hộ tịch",
+    doiTuong: "Cha, mẹ hoặc người giám hộ của trẻ",
+    giayTo: ["Tờ khai đăng ký khai sinh", "Giấy chứng sinh", "CCCD cha, mẹ"],
+    noiNop: "UBND cấp xã nơi cư trú của cha hoặc mẹ",
+    thoiHan: "Giải quyết trong ngày",
+    lePhi: "Miễn phí",
+    buoc: ["Chuẩn bị đầy đủ giấy tờ", "Nộp hồ sơ tại UBND xã hoặc online", "Nhận giấy khai sinh"],
+    faq: [
+      "Có cần cả cha và mẹ cùng đi không? → Không bắt buộc",
+      "Có làm online được không? → Có"
+    ]
+  },
+  {
+    ten: "Đăng ký kết hôn",
+    nhom: "Hộ tịch",
+    doiTuong: "Nam, nữ đủ điều kiện kết hôn",
+    giayTo: ["Tờ khai đăng ký kết hôn", "CCCD hai bên"],
+    noiNop: "UBND xã nơi cư trú của một trong hai bên",
+    thoiHan: "Trong ngày",
+    lePhi: "Miễn phí",
+    buoc: ["Hai bên cùng có mặt", "Ký sổ hộ tịch", "Nhận giấy kết hôn"],
+    faq: ["Hai người phải cùng đi không? → Có"]
+  },
+  {
+    ten: "Chứng thực bản sao từ bản chính",
+    nhom: "Chứng thực",
+    doiTuong: "Công dân có nhu cầu sử dụng bản sao",
+    giayTo: ["Bản chính", "Bản sao"],
+    noiNop: "UBND cấp xã",
+    thoiHan: "Trong ngày",
+    lePhi: "Theo quy định",
+    buoc: ["Xuất trình bản chính", "Yêu cầu chứng thực", "Nhận bản sao"],
+    faq: ["Có cần photo trước không? → Nên chuẩn bị sẵn"]
   }
+];
 
-  function guiHoSo(e, ma) {
-    e.preventDefault();
-    alert('Hồ sơ ' + THU_TUC[ma].ten + ' đã được gửi (demo).');
-  }
-
-  function timThuTuc(tuKhoa) {
-    tuKhoa = tuKhoa.toLowerCase();
-    document.querySelectorAll('.menu button').forEach(btn => {
-      btn.style.display = btn.innerText.toLowerCase().includes(tuKhoa) ? 'block' : 'none';
+function hienDanhSach(ds) {
+  const div = document.getElementById("danhSach");
+  div.innerHTML = "";
+  const nhom = [...new Set(ds.map(t => t.nhom))];
+  nhom.forEach(n => {
+    const g = document.createElement("div");
+    g.className = "group";
+    g.innerHTML = `<h3>${n}</h3>`;
+    ds.filter(t => t.nhom === n).forEach(t => {
+      const b = document.createElement("button");
+      b.innerText = t.ten;
+      b.onclick = () => hienChiTiet(t);
+      g.appendChild(b);
     });
-  }</h3>
-      <span class="badge">Thủ tục cấp xã</span>
-      <hr>
-      <p><b>📌 Giấy tờ cần chuẩn bị:</b></p>
-      <ul>
-        ${t.giay_to.map(g => `<li>${g}</li>`).join('')}
-      </ul>
-      <p><b>⏱ Thời gian giải quyết:</b> ${t.thoi_gian}</p>
-      <p><b>🏢 Nơi nộp hồ sơ:</b> ${t.noi_nop}</p>
-    `;
-    document.getElementById('ketqua').innerHTML = html;
-  }
+    div.appendChild(g);
+  });
+}
+
+function hienChiTiet(t) {
+  document.getElementById("chiTiet").innerHTML = `
+    <h2>${t.ten}</h2>
+    <span class="tag">${t.nhom}</span>
+    <span class="tag">${t.doiTuong}</span>
+
+    <div class="section">
+      <h4>📍 Nơi nộp</h4>
+      <p>${t.noiNop}</p>
+    </div>
+
+    <div class="section">
+      <h4>⏱ Thời hạn giải quyết</h4>
+      <p>${t.thoiHan}</p>
+    </div>
+
+    <div class="section">
+      <h4>💰 Lệ phí</h4>
+      <p>${t.lePhi}</p>
+    </div>
+
+    <div class="section">
+      <h4>📄 Giấy tờ cần chuẩn bị</h4>
+      <ul>${t.giayTo.map(g => `<li>${g}</li>`).join("")}</ul>
+    </div>
+
+    <div class="section">
+      <h4>🧭 Các bước thực hiện</h4>
+      <ol>${t.buoc.map(b => `<li>${b}</li>`).join("")}</ol>
+    </div>
+
+    <div class="section">
+      <h4>❓ Câu hỏi thường gặp</h4>
+      <ul>${t.faq.map(f => `<li>${f}</li>`).join("")}</ul>
+    </div>
+
+    <div class="note">
+      🌐 Có thể nộp online tại <a href="https://dichvucong.gov.vn" target="_blank">Cổng Dịch vụ công Quốc gia</a>
+    </div>
+  `;
+}
+
+function timThuTuc(tu) {
+  const kq = thuTuc.filter(t => t.ten.toLowerCase().includes(tu.toLowerCase()));
+  hienDanhSach(kq);
+}
+
+hienDanhSach(thuTuc);
 </script>
 
 </body>
