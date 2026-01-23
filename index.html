@@ -1,253 +1,161 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
 <title>Trợ lý thủ tục hành chính cấp xã</title>
 <style>
 body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
+  font-family: "Segoe UI", Arial;
+  background: #f3f6fa;
   margin: 0;
 }
 header {
-  background: #0a4fa3;
-  color: #fff;
-  padding: 20px;
+  background: linear-gradient(135deg,#0a4fa3,#0f6bdc);
+  color: white;
+  padding: 28px;
   text-align: center;
 }
 .container {
   display: flex;
-  gap: 20px;
   padding: 20px;
+  gap: 20px;
 }
 .sidebar {
-  width: 320px;
-  background: #fff;
-  border-radius: 8px;
+  width: 340px;
+  background: white;
+  border-radius: 10px;
   padding: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
 }
 .content {
   flex: 1;
-  background: #fff;
-  border-radius: 8px;
-  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
 }
 input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
   margin-bottom: 15px;
 }
 .group {
   background: #0a4fa3;
   color: white;
-  padding: 8px;
-  border-radius: 6px;
-  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-weight: bold;
 }
 .item {
   padding: 10px;
-  border: 1px solid #ddd;
   margin-top: 6px;
   border-radius: 6px;
+  border: 1px solid #ddd;
   cursor: pointer;
 }
 .item:hover {
-  background: #f0f7ff;
+  background: #eef5ff;
 }
-h2 { margin-top: 0; }
-.section { margin-bottom: 12px; }
-.section strong { display: block; margin-bottom: 4px; }
+h2 { margin-top: 0; color:#0a4fa3 }
+.section { margin-bottom: 14px }
+.section strong { display:block; margin-bottom:4px }
+ul { margin:0; padding-left:20px }
 footer {
-  text-align: center;
-  padding: 15px;
-  color: #666;
+  text-align:center;
+  padding:16px;
+  color:#666;
+}
+.badge {
+  display:inline-block;
+  background:#eef;
+  color:#0a4fa3;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:13px;
 }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>🤖 Trợ lý thủ tục hành chính cấp xã</h1>
-  <p>Hướng dẫn chi tiết – chính xác – dễ hiểu cho công dân</p>
+<h1>🤖 Trợ lý thủ tục hành chính cấp xã</h1>
+<p>Hệ thống tư vấn thủ tục – đúng quy định – dễ hiểu cho công dân</p>
 </header>
 
 <div class="container">
-  <div class="sidebar">
-    <input id="search" placeholder="🔍 Tìm thủ tục..." />
+<div class="sidebar">
+<input id="search" placeholder="🔍 Tìm thủ tục (vd: khai sinh, cư trú...)">
+<div id="menu"></div>
+</div>
 
-    <div id="menu"></div>
-  </div>
-
-  <div class="content" id="detail">
-    <h2>📄 Hướng dẫn thủ tục</h2>
-    <p>Vui lòng chọn một thủ tục để xem chi tiết.</p>
-  </div>
+<div class="content" id="detail">
+<h2>📄 Hướng dẫn thủ tục</h2>
+<p>Vui lòng chọn một thủ tục bên trái để xem chi tiết.</p>
+</div>
 </div>
 
 <footer>
-  © Hệ thống tư vấn thủ tục hành chính cấp xã
+© Hệ thống tư vấn thủ tục hành chính cấp xã
 </footer>
 
 <script>
 const data = {
-  "Hộ tịch": [
-    {
-      ten: "Đăng ký khai sinh",
-      doiTuong: "Trẻ em sinh ra trên địa bàn",
-      hoSo: [
-        "Giấy chứng sinh",
-        "CMND/CCCD cha, mẹ",
-        "Sổ hộ khẩu"
-      ],
-      thoiHan: "Trong ngày",
-      lePhi: "Miễn phí",
-      ketQua: "Giấy khai sinh"
-    },
-    {
-      ten: "Đăng ký khai tử",
-      doiTuong: "Người đã chết",
-      hoSo: [
-        "Giấy báo tử",
-        "CMND/CCCD người khai",
-        "Sổ hộ khẩu"
-      ],
-      thoiHan: "Trong ngày",
-      lePhi: "Miễn phí",
-      ketQua: "Trích lục khai tử"
-    },
-    {
-      ten: "Đăng ký kết hôn",
-      doiTuong: "Nam nữ đủ điều kiện kết hôn",
-      hoSo: [
-        "CMND/CCCD hai bên",
-        "Sổ hộ khẩu",
-        "Giấy xác nhận tình trạng hôn nhân"
-      ],
-      thoiHan: "Trong ngày",
-      lePhi: "Miễn phí",
-      ketQua: "Giấy chứng nhận kết hôn"
-    }
-  ],
+"Hộ tịch":[
+{ten:"Đăng ký khai sinh",doiTuong:"Trẻ em sinh ra",noi:"UBND cấp xã",thoiHan:"Trong ngày",lePhi:"Miễn phí",ketQua:"Giấy khai sinh",hoSo:["Giấy chứng sinh","CCCD cha mẹ","Sổ hộ khẩu"]},
+{ten:"Đăng ký khai sinh quá hạn",doiTuong:"Trẻ em đăng ký muộn",noi:"UBND cấp xã",thoiHan:"03 ngày",lePhi:"Miễn phí",ketQua:"Giấy khai sinh",hoSo:["Giấy chứng sinh","Cam kết","CCCD cha mẹ"]},
+{ten:"Đăng ký khai tử",doiTuong:"Người đã chết",noi:"UBND cấp xã",thoiHan:"Trong ngày",lePhi:"Miễn phí",ketQua:"Trích lục khai tử",hoSo:["Giấy báo tử","CCCD người khai"]},
+{ten:"Đăng ký kết hôn",doiTuong:"Nam nữ đủ điều kiện",noi:"UBND cấp xã",thoiHan:"Trong ngày",lePhi:"Miễn phí",ketQua:"Giấy CN kết hôn",hoSo:["CCCD hai bên","Xác nhận hôn nhân"]},
+{ten:"Cấp bản sao trích lục hộ tịch",doiTuong:"Cá nhân",noi:"UBND cấp xã",thoiHan:"Trong ngày",lePhi:"5.000đ/bản",ketQua:"Bản sao trích lục",hoSo:["Đơn yêu cầu","CCCD"]}
+],
 
-  "Cư trú": [
-    {
-      ten: "Đăng ký thường trú",
-      doiTuong: "Công dân đủ điều kiện",
-      hoSo: [
-        "Phiếu báo thay đổi cư trú",
-        "CMND/CCCD",
-        "Giấy tờ nhà ở"
-      ],
-      thoiHan: "07 ngày làm việc",
-      lePhi: "Miễn phí",
-      ketQua: "Cập nhật thông tin cư trú"
-    },
-    {
-      ten: "Đăng ký tạm trú",
-      doiTuong: "Công dân sinh sống tạm thời",
-      hoSo: [
-        "Phiếu báo tạm trú",
-        "CMND/CCCD",
-        "Giấy tờ chỗ ở"
-      ],
-      thoiHan: "03 ngày làm việc",
-      lePhi: "Miễn phí",
-      ketQua: "Xác nhận tạm trú"
-    }
-  ],
+"Cư trú":[
+{ten:"Đăng ký thường trú",doiTuong:"Công dân",noi:"Công an xã",thoiHan:"07 ngày",lePhi:"Miễn phí",ketQua:"Cập nhật cư trú",hoSo:["Phiếu cư trú","CCCD","Giấy nhà"]},
+{ten:"Đăng ký tạm trú",doiTuong:"Công dân",noi:"Công an xã",thoiHan:"03 ngày",lePhi:"Miễn phí",ketQua:"Xác nhận tạm trú",hoSo:["Phiếu tạm trú","CCCD"]},
+{ten:"Xác nhận thông tin cư trú",doiTuong:"Cá nhân",noi:"Công an xã",thoiHan:"Trong ngày",lePhi:"Miễn phí",ketQua:"Giấy xác nhận",hoSo:["CCCD"]}
+],
 
-  "Chứng thực": [
-    {
-      ten: "Chứng thực bản sao từ bản chính",
-      doiTuong: "Cá nhân, tổ chức",
-      hoSo: [
-        "Bản chính giấy tờ",
-        "Bản sao cần chứng thực"
-      ],
-      thoiHan: "Trong ngày",
-      lePhi: "2.000đ/trang",
-      ketQua: "Bản sao chứng thực"
-    },
-    {
-      ten: "Chứng thực chữ ký",
-      doiTuong: "Cá nhân",
-      hoSo: [
-        "Giấy tờ cần ký",
-        "CMND/CCCD"
-      ],
-      thoiHan: "Trong ngày",
-      lePhi: "10.000đ",
-      ketQua: "Văn bản được chứng thực chữ ký"
-    }
-  ],
+"Chứng thực":[
+{ten:"Chứng thực bản sao",doiTuong:"Cá nhân/tổ chức",noi:"UBND xã",thoiHan:"Trong ngày",lePhi:"2.000đ/trang",ketQua:"Bản sao chứng thực",hoSo:["Bản chính","Bản sao"]},
+{ten:"Chứng thực chữ ký",doiTuong:"Cá nhân",noi:"UBND xã",thoiHan:"Trong ngày",lePhi:"10.000đ",ketQua:"Văn bản chứng thực",hoSo:["CCCD","Giấy cần ký"]}
+],
 
-  "Chính sách – xã hội": [
-    {
-      ten: "Xác nhận hộ nghèo",
-      doiTuong: "Hộ gia đình",
-      hoSo: [
-        "Đơn đề nghị",
-        "Sổ hộ khẩu"
-      ],
-      thoiHan: "05 ngày làm việc",
-      lePhi: "Miễn phí",
-      ketQua: "Giấy xác nhận hộ nghèo"
-    },
-    {
-      ten: "Xác nhận hoàn cảnh khó khăn",
-      doiTuong: "Cá nhân/hộ gia đình",
-      hoSo: [
-        "Đơn xác nhận",
-        "Giấy tờ liên quan"
-      ],
-      thoiHan: "03 ngày làm việc",
-      lePhi: "Miễn phí",
-      ketQua: "Giấy xác nhận"
-    }
-  ]
+"Chính sách – xã hội":[
+{ten:"Xác nhận hộ nghèo",doiTuong:"Hộ gia đình",noi:"UBND xã",thoiHan:"05 ngày",lePhi:"Miễn phí",ketQua:"Giấy xác nhận",hoSo:["Đơn","Sổ hộ khẩu"]},
+{ten:"Xác nhận hoàn cảnh khó khăn",doiTuong:"Cá nhân",noi:"UBND xã",thoiHan:"03 ngày",lePhi:"Miễn phí",ketQua:"Giấy xác nhận",hoSo:["Đơn","Giấy liên quan"]}
+]
 };
 
-const menu = document.getElementById("menu");
-const detail = document.getElementById("detail");
-const search = document.getElementById("search");
+const menu=document.getElementById("menu");
+const detail=document.getElementById("detail");
+const search=document.getElementById("search");
 
-function renderMenu(filter = "") {
-  menu.innerHTML = "";
-  for (let group in data) {
-    const items = data[group].filter(i =>
-      i.ten.toLowerCase().includes(filter)
-    );
-    if (!items.length) continue;
-
-    const g = document.createElement("div");
-    g.className = "group";
-    g.textContent = group;
-    menu.appendChild(g);
-
-    items.forEach(item => {
-      const div = document.createElement("div");
-      div.className = "item";
-      div.textContent = item.ten;
-      div.onclick = () => showDetail(item);
-      menu.appendChild(div);
-    });
-  }
+function render(filter=""){
+menu.innerHTML="";
+for(let g in data){
+let items=data[g].filter(i=>i.ten.toLowerCase().includes(filter));
+if(!items.length)continue;
+menu.innerHTML+=`<div class="group">${g}</div>`;
+items.forEach(i=>{
+menu.innerHTML+=`<div class="item" onclick='show(${JSON.stringify(i)})'>${i.ten}</div>`;
+});
 }
-
-function showDetail(item) {
-  detail.innerHTML = `
-    <h2>${item.ten}</h2>
-    <div class="section"><strong>Đối tượng:</strong>${item.doiTuong}</div>
-    <div class="section"><strong>Hồ sơ cần nộp:</strong><ul>${item.hoSo.map(h => `<li>${h}</li>`).join("")}</ul></div>
-    <div class="section"><strong>Thời hạn giải quyết:</strong>${item.thoiHan}</div>
-    <div class="section"><strong>Lệ phí:</strong>${item.lePhi}</div>
-    <div class="section"><strong>Kết quả:</strong>${item.ketQua}</div>
-  `;
 }
-
-search.oninput = e => renderMenu(e.target.value.toLowerCase());
-
-renderMenu();
+function show(i){
+detail.innerHTML=`
+<h2>${i.ten}</h2>
+<div class="badge">${i.noi}</div>
+<div class="section"><strong>Đối tượng:</strong>${i.doiTuong}</div>
+<div class="section"><strong>Hồ sơ:</strong><ul>${i.hoSo.map(h=>`<li>${h}</li>`).join("")}</ul></div>
+<div class="section"><strong>Thời hạn:</strong>${i.thoiHan}</div>
+<div class="section"><strong>Lệ phí:</strong>${i.lePhi}</div>
+<div class="section"><strong>Kết quả:</strong>${i.ketQua}</div>
+`;
+}
+search.oninput=e=>render(e.target.value.toLowerCase());
+render();
 </script>
 
 </body>
