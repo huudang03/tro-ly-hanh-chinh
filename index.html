@@ -140,56 +140,96 @@
   const THU_TUC = {
     khai_sinh: {
       ten: "Đăng ký khai sinh",
+      can_cu_phap_ly: "Luật Hộ tịch 2014; Nghị định 123/2015/NĐ-CP",
+      doi_tuong: "Trẻ em sinh ra trên địa bàn hoặc cư trú tại địa phương",
       giay_to: [
         "Tờ khai đăng ký khai sinh (theo mẫu)",
-        "Giấy chứng sinh (bản chính)",
+        "Giấy chứng sinh (bản chính); nếu không có thì văn bản xác nhận của người làm chứng",
         "CCCD/CMND của cha, mẹ",
-        "Sổ hộ khẩu (nếu có)"
+        "Giấy đăng ký kết hôn của cha mẹ (nếu có)"
+      ],
+      trinh_tu: [
+        "Người dân nộp hồ sơ tại Bộ phận một cửa UBND cấp xã",
+        "Công chức tư pháp – hộ tịch kiểm tra hồ sơ",
+        "Ghi vào Sổ hộ tịch và cấp Giấy khai sinh"
       ],
       thoi_gian: "Giải quyết trong ngày",
-      noi_nop: "UBND cấp xã nơi cư trú"
+      le_phi: "Miễn phí",
+      noi_nop: "UBND cấp xã nơi cư trú của cha hoặc mẹ"
     },
 
     khai_tu: {
       ten: "Đăng ký khai tử",
+      can_cu_phap_ly: "Luật Hộ tịch 2014",
+      doi_tuong: "Người thân của người đã mất",
       giay_to: [
         "Tờ khai đăng ký khai tử",
-        "Giấy báo tử",
+        "Giấy báo tử hoặc giấy xác nhận việc chết",
         "CCCD/CMND của người đi khai"
       ],
-      thoi_gian: "Giải quyết trong ngày",
-      noi_nop: "UBND cấp xã nơi cư trú của người đã mất"
+      trinh_tu: [
+        "Nộp hồ sơ tại UBND cấp xã",
+        "Công chức hộ tịch tiếp nhận và kiểm tra",
+        "Cấp Trích lục khai tử"
+      ],
+      thoi_gian: "Trong ngày",
+      le_phi: "Miễn phí",
+      noi_nop: "UBND cấp xã nơi cư trú cuối cùng của người đã mất"
     },
 
     ket_hon: {
       ten: "Đăng ký kết hôn",
+      can_cu_phap_ly: "Luật Hộ tịch 2014; Luật Hôn nhân và Gia đình 2014",
+      doi_tuong: "Nam, nữ đủ điều kiện kết hôn theo quy định",
       giay_to: [
         "Tờ khai đăng ký kết hôn",
-        "CCCD/CMND của hai bên nam, nữ",
+        "CCCD/CMND của hai bên",
         "Giấy xác nhận tình trạng hôn nhân"
       ],
-      thoi_gian: "Trong ngày (nếu đủ điều kiện)",
+      trinh_tu: [
+        "Hai bên nam, nữ cùng có mặt tại UBND cấp xã",
+        "Công chức hộ tịch kiểm tra điều kiện kết hôn",
+        "Chủ tịch UBND ký và cấp Giấy chứng nhận kết hôn"
+      ],
+      thoi_gian: "Trong ngày",
+      le_phi: "Miễn phí",
       noi_nop: "UBND cấp xã nơi cư trú của một trong hai bên"
     },
 
     xac_nhan_cu_tru: {
       ten: "Xác nhận thông tin cư trú",
+      can_cu_phap_ly: "Luật Cư trú 2020",
+      doi_tuong: "Công dân có nhu cầu xác nhận thông tin cư trú",
       giay_to: [
-        "Đơn đề nghị xác nhận cư trú",
-        "CCCD/CMND"
+        "Đơn đề nghị xác nhận thông tin cư trú",
+        "CCCD gắn chip"
+      ],
+      trinh_tu: [
+        "Nộp hồ sơ tại UBND cấp xã",
+        "Xác minh thông tin trên Cơ sở dữ liệu quốc gia",
+        "Cấp văn bản xác nhận"
       ],
       thoi_gian: "01 ngày làm việc",
+      le_phi: "Miễn phí",
       noi_nop: "UBND cấp xã"
     },
 
     chung_thuc: {
-      ten: "Chứng thực giấy tờ",
+      ten: "Chứng thực bản sao từ bản chính",
+      can_cu_phap_ly: "Nghị định 23/2015/NĐ-CP",
+      doi_tuong: "Cá nhân, tổ chức có nhu cầu chứng thực",
       giay_to: [
         "Bản chính giấy tờ cần chứng thực",
         "Bản sao cần chứng thực",
         "CCCD/CMND"
       ],
+      trinh_tu: [
+        "Xuất trình bản chính",
+        "Công chức kiểm tra và chứng thực",
+        "Trả kết quả cho người dân"
+      ],
       thoi_gian: "Trong ngày",
+      le_phi: "Theo quy định",
       noi_nop: "UBND cấp xã"
     }
   };
@@ -213,24 +253,3 @@
 
 </body>
 </html>
-```
-
----
-
-## ✅ BẠN ĐÃ CÓ GÌ SAU FILE NÀY?
-
-* Chạy **ngay lập tức**
-* Không lỗi, không API, không KEY
-* Phù hợp trình bày cho **xã / phường / đồ án / demo**
-* Có thể mở rộng **50–100 thủ tục** rất dễ
-
----
-
-## 🚀 BƯỚC TIẾP THEO (BẠN CHỌN 1)
-
-1️⃣ Thêm **ô tìm kiếm thủ tục**
-2️⃣ Phân nhóm: Hộ tịch – Cư trú – Chứng thực
-3️⃣ Thêm **form nộp hồ sơ online (demo)**
-4️⃣ Sau này **gắn AI lại nhưng KHÔNG phụ thuộc AI**
-
-👉 Bạn chỉ cần nói: **"Làm tiếp bước X"**
