@@ -118,12 +118,19 @@
 
 <div class="container">
   <div class="menu">
-    <h2>📋 Danh sách thủ tục</h2>
+    <h2>🔍 Tìm kiếm thủ tục</h2>
+    <input id="search" placeholder="Nhập tên thủ tục..." style="width:100%;padding:10px;margin-bottom:12px" oninput="timThuTuc(this.value)">
+
+    <h2>📂 Hộ tịch</h2>
     <button onclick="xemThuTuc('khai_sinh')">👶 Đăng ký khai sinh</button>
     <button onclick="xemThuTuc('khai_tu')">⚰️ Đăng ký khai tử</button>
     <button onclick="xemThuTuc('ket_hon')">💍 Đăng ký kết hôn</button>
-    <button onclick="xemThuTuc('xac_nhan_cu_tru')">🏠 Xác nhận cư trú</button>
-    <button onclick="xemThuTuc('chung_thuc')">📄 Chứng thực giấy tờ</button>
+
+    <h2>🏠 Cư trú</h2>
+    <button onclick="xemThuTuc('xac_nhan_cu_tru')">📍 Xác nhận cư trú</button>
+
+    <h2>📄 Chứng thực</h2>
+    <button onclick="xemThuTuc('chung_thuc')">🖨️ Chứng thực giấy tờ</button>
   </div>
 
   <div class="content" id="ketqua">
@@ -238,6 +245,40 @@
     const t = THU_TUC[ma];
     let html = `
       <h3>${t.ten}</h3>
+      <span class="badge">Thủ tục cấp xã</span>
+      <hr>
+      <p><b>⚖️ Căn cứ pháp lý:</b> ${t.can_cu_phap_ly}</p>
+      <p><b>👥 Đối tượng:</b> ${t.doi_tuong}</p>
+      <p><b>📌 Giấy tờ cần chuẩn bị:</b></p>
+      <ul>${t.giay_to.map(g => `<li>${g}</li>`).join('')}</ul>
+      <p><b>🧭 Trình tự thực hiện:</b></p>
+      <ol>${t.trinh_tu.map(b => `<li>${b}</li>`).join('')}</ol>
+      <p><b>⏱ Thời gian:</b> ${t.thoi_gian}</p>
+      <p><b>💰 Lệ phí:</b> ${t.le_phi}</p>
+      <p><b>🏢 Nơi nộp:</b> ${t.noi_nop}</p>
+      <hr>
+      <h4>📝 Nộp hồ sơ trực tuyến (demo)</h4>
+      <form onsubmit="guiHoSo(event, '${ma}')">
+        <input required placeholder="Họ và tên" style="width:100%;padding:8px;margin-bottom:8px"><br>
+        <input required placeholder="Số CCCD" style="width:100%;padding:8px;margin-bottom:8px"><br>
+        <textarea placeholder="Ghi chú" style="width:100%;padding:8px"></textarea><br><br>
+        <button type="submit">Gửi hồ sơ</button>
+      </form>
+    `;
+    document.getElementById('ketqua').innerHTML = html;
+  }
+
+  function guiHoSo(e, ma) {
+    e.preventDefault();
+    alert('Hồ sơ ' + THU_TUC[ma].ten + ' đã được gửi (demo).');
+  }
+
+  function timThuTuc(tuKhoa) {
+    tuKhoa = tuKhoa.toLowerCase();
+    document.querySelectorAll('.menu button').forEach(btn => {
+      btn.style.display = btn.innerText.toLowerCase().includes(tuKhoa) ? 'block' : 'none';
+    });
+  }</h3>
       <span class="badge">Thủ tục cấp xã</span>
       <hr>
       <p><b>📌 Giấy tờ cần chuẩn bị:</b></p>
