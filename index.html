@@ -1,20 +1,20 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <title>Trợ lý thủ tục hành chính cấp xã</title>
+  <meta charset="UTF-8">
+  <title>Trợ Lý Thủ Tục Hành Chính Cấp Xã</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       background: #f4f6f8;
       margin: 0;
       padding: 0;
     }
 
     header {
-      background: #0a4fa3;
+      background: linear-gradient(135deg, #0a4fa3, #1976d2);
       color: white;
       padding: 20px;
       text-align: center;
@@ -27,124 +27,210 @@
 
     header p {
       margin-top: 8px;
-      opacity: 0.9;
+      font-size: 15px;
+      opacity: 0.95;
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 30px auto;
       padding: 0 15px;
-    }
-
-    .buttons {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 15px;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
     }
 
-    button {
-      padding: 16px;
-      font-size: 16px;
+    .menu {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      padding: 15px;
+    }
+
+    .menu h2 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #0a4fa3;
+    }
+
+    .menu button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
       border: none;
-      border-radius: 12px;
-      background: white;
+      border-radius: 8px;
+      background: #e3f2fd;
+      font-size: 15px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: 0.2s;
+      text-align: left;
     }
 
-    button:hover {
-      transform: translateY(-2px);
-      background: #eaf2ff;
+    .menu button:hover {
+      background: #bbdefb;
     }
 
-    #result {
-      margin-top: 30px;
+    .content {
       background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      display: none;
     }
 
-    #result h3 {
+    .content h3 {
       margin-top: 0;
       color: #0a4fa3;
     }
 
-    #answer {
-      white-space: pre-line;
-      line-height: 1.6;
+    .content ul {
+      padding-left: 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 13px;
+      margin-right: 8px;
     }
 
     footer {
       text-align: center;
-      margin: 30px 0;
+      padding: 15px;
+      font-size: 13px;
       color: #666;
-      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
-
 <body>
 
 <header>
-  <h1>🤖 Trợ lý thủ tục hành chính cấp xã</h1>
-  <p>Hướng dẫn nhanh – chính xác – dễ hiểu cho người dân</p>
+  <h1>Trợ Lý Thủ Tục Hành Chính Cấp Xã</h1>
+  <p>Hỗ trợ người dân tra cứu thủ tục nhanh – đúng – dễ hiểu</p>
 </header>
 
 <div class="container">
-
-  <div class="buttons">
-    <button onclick="hoiThuTuc('cấp căn cước công dân')">🪪 Căn cước công dân</button>
-    <button onclick="hoiThuTuc('đăng ký khai sinh')">👶 Đăng ký khai sinh</button>
-    <button onclick="hoiThuTuc('đăng ký khai tử')">⚰️ Đăng ký khai tử</button>
-    <button onclick="hoiThuTuc('đăng ký kết hôn')">💍 Đăng ký kết hôn</button>
-    <button onclick="hoiThuTuc('đăng ký thường trú')">🏠 Thường trú</button>
-    <button onclick="hoiThuTuc('đăng ký tạm trú')">📍 Tạm trú</button>
-    <button onclick="hoiThuTuc('chứng thực giấy tờ')">📄 Chứng thực</button>
-    <button onclick="hoiThuTuc('xác nhận hộ nghèo')">📌 Xác nhận hộ nghèo</button>
+  <div class="menu">
+    <h2>📋 Danh sách thủ tục</h2>
+    <button onclick="xemThuTuc('khai_sinh')">👶 Đăng ký khai sinh</button>
+    <button onclick="xemThuTuc('khai_tu')">⚰️ Đăng ký khai tử</button>
+    <button onclick="xemThuTuc('ket_hon')">💍 Đăng ký kết hôn</button>
+    <button onclick="xemThuTuc('xac_nhan_cu_tru')">🏠 Xác nhận cư trú</button>
+    <button onclick="xemThuTuc('chung_thuc')">📄 Chứng thực giấy tờ</button>
   </div>
 
-  <div id="result">
-    <h3>📄 Hướng dẫn chi tiết</h3>
-    <div id="answer"></div>
+  <div class="content" id="ketqua">
+    <h3>👋 Xin chào!</h3>
+    <p>Vui lòng chọn một thủ tục hành chính bên trái để xem hướng dẫn chi tiết.</p>
   </div>
-
 </div>
 
 <footer>
-  © Trợ lý hành chính cấp xã – Demo AI
+  © 2026 – Trợ lý thủ tục hành chính cấp xã | Phiên bản không dùng AI
 </footer>
 
 <script>
-  const API_URL = "https://misty-waterfall-de6b.dohuudang2003.workers.dev";
+  const THU_TUC = {
+    khai_sinh: {
+      ten: "Đăng ký khai sinh",
+      giay_to: [
+        "Tờ khai đăng ký khai sinh (theo mẫu)",
+        "Giấy chứng sinh (bản chính)",
+        "CCCD/CMND của cha, mẹ",
+        "Sổ hộ khẩu (nếu có)"
+      ],
+      thoi_gian: "Giải quyết trong ngày",
+      noi_nop: "UBND cấp xã nơi cư trú"
+    },
 
-  function hoiThuTuc(tenThuTuc) {
-    const result = document.getElementById("result");
-    const answer = document.getElementById("answer");
+    khai_tu: {
+      ten: "Đăng ký khai tử",
+      giay_to: [
+        "Tờ khai đăng ký khai tử",
+        "Giấy báo tử",
+        "CCCD/CMND của người đi khai"
+      ],
+      thoi_gian: "Giải quyết trong ngày",
+      noi_nop: "UBND cấp xã nơi cư trú của người đã mất"
+    },
 
-    result.style.display = "block";
-    answer.innerText = "⏳ Đang lấy hướng dẫn từ trợ lý AI...";
+    ket_hon: {
+      ten: "Đăng ký kết hôn",
+      giay_to: [
+        "Tờ khai đăng ký kết hôn",
+        "CCCD/CMND của hai bên nam, nữ",
+        "Giấy xác nhận tình trạng hôn nhân"
+      ],
+      thoi_gian: "Trong ngày (nếu đủ điều kiện)",
+      noi_nop: "UBND cấp xã nơi cư trú của một trong hai bên"
+    },
 
-    fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        question: `Hướng dẫn chi tiết thủ tục ${tenThuTuc} tại UBND cấp xã, trình bày rõ ràng từng bước, giấy tờ cần thiết, thời gian giải quyết.`
-      })
-    })
-    .then(res => res.json())
-    .then(data => {
-      answer.innerText = data.answer;
-    })
-    .catch(err => {
-      answer.innerText = "❌ Không thể lấy dữ liệu. Vui lòng thử lại sau.";
-    });
+    xac_nhan_cu_tru: {
+      ten: "Xác nhận thông tin cư trú",
+      giay_to: [
+        "Đơn đề nghị xác nhận cư trú",
+        "CCCD/CMND"
+      ],
+      thoi_gian: "01 ngày làm việc",
+      noi_nop: "UBND cấp xã"
+    },
+
+    chung_thuc: {
+      ten: "Chứng thực giấy tờ",
+      giay_to: [
+        "Bản chính giấy tờ cần chứng thực",
+        "Bản sao cần chứng thực",
+        "CCCD/CMND"
+      ],
+      thoi_gian: "Trong ngày",
+      noi_nop: "UBND cấp xã"
+    }
+  };
+
+  function xemThuTuc(ma) {
+    const t = THU_TUC[ma];
+    let html = `
+      <h3>${t.ten}</h3>
+      <span class="badge">Thủ tục cấp xã</span>
+      <hr>
+      <p><b>📌 Giấy tờ cần chuẩn bị:</b></p>
+      <ul>
+        ${t.giay_to.map(g => `<li>${g}</li>`).join('')}
+      </ul>
+      <p><b>⏱ Thời gian giải quyết:</b> ${t.thoi_gian}</p>
+      <p><b>🏢 Nơi nộp hồ sơ:</b> ${t.noi_nop}</p>
+    `;
+    document.getElementById('ketqua').innerHTML = html;
   }
 </script>
 
 </body>
 </html>
+```
+
+---
+
+## ✅ BẠN ĐÃ CÓ GÌ SAU FILE NÀY?
+
+* Chạy **ngay lập tức**
+* Không lỗi, không API, không KEY
+* Phù hợp trình bày cho **xã / phường / đồ án / demo**
+* Có thể mở rộng **50–100 thủ tục** rất dễ
+
+---
+
+## 🚀 BƯỚC TIẾP THEO (BẠN CHỌN 1)
+
+1️⃣ Thêm **ô tìm kiếm thủ tục**
+2️⃣ Phân nhóm: Hộ tịch – Cư trú – Chứng thực
+3️⃣ Thêm **form nộp hồ sơ online (demo)**
+4️⃣ Sau này **gắn AI lại nhưng KHÔNG phụ thuộc AI**
+
+👉 Bạn chỉ cần nói: **"Làm tiếp bước X"**
